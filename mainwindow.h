@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QResizeEvent>
+#include "mainboard.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    MainBoard* board;
+
+protected:
+    void resizeEvent(QResizeEvent* event);
 };
 
 #endif // MAINWINDOW_H
