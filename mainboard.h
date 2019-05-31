@@ -3,7 +3,6 @@
 
 #include "boardbutton.h"
 #include <vector>
-
 #include <QGridLayout>
 
 using namespace std;

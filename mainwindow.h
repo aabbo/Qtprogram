@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QResizeEvent>
+//#include <QResizeEvent>
 #include "mainboard.h"
+#include "setupdialog.h"
+#include "resultdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +17,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    bool setup_bool();
     ~MainWindow();
 
 private:
@@ -22,7 +25,9 @@ private:
     MainBoard* board;
 
 protected:
-    void resizeEvent(QResizeEvent* event);
+    SetupDialog *setupDig;
+    ResultDialog *resultDig;
+    //void resizeEvent(QResizeEvent* event);
 };
 
 #endif // MAINWINDOW_H

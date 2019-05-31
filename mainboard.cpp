@@ -1,5 +1,4 @@
 #include "mainboard.h"
-
 #include <QLabel>
 
 MainBoard::MainBoard()

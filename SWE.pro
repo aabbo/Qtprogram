@@ -25,18 +25,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    controller.cpp \
         main.cpp \
         mainwindow.cpp \
     boardbutton.cpp \
-    mainboard.cpp
+    mainboard.cpp \
+    resultdialog.cpp \
+    setupdialog.cpp
 
 HEADERS += \
+    controller.h \
         mainwindow.h \
     boardbutton.h \
-    mainboard.h
+    mainboard.h \
+    resultdialog.h \
+    setupdialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        resultdialog.ui \
+        setupdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
