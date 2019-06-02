@@ -21,6 +21,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+public slots:
+   void clicked(QPushButton* btn);
+
 public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
     bool setup_bool();

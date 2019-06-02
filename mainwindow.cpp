@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     setupDig->exec();
 
     //yutPan set
-    board = new MainBoard(ymodel->buttonList);
+    //board = new MainBoard(ymodel->buttonList,this);
+    board = new MainBoard(this->ymodel,this->yctrl,this);
     ui->MainBoardFrame->setLayout(board->grid);
 }
 
@@ -33,7 +34,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+void MainWindow::clicked(QPushButton *btn){
+    qDebug() << btn->objectName();
+}
 /*
 void MainWindow::resizeEvent(QResizeEvent *event){
 

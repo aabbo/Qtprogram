@@ -21,3 +21,6 @@ void YutController::setValueOfTeams(int val){
     qDebug()<<"contrl=team="<<val;
     ymodel->setValueOfTeams(val);
 }
+void YutController::clickedBoardBtn(QPushButton* btn){
+    qDebug() << btn->objectName();
+}

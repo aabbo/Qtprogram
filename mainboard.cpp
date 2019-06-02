@@ -1,11 +1,16 @@
 #include "mainboard.h"
 #include <QLabel>
-
-MainBoard::MainBoard(vector<BoardButton*> btnList)
+//vector<BoardButton*> btnList,QWidget *parent
+MainBoard::MainBoard(YutModel* model, YutController* ctrl,QWidget *parent) : QWidget(parent)
 {
 
+    this->ymodel=model;
+    this->yctrl=ctrl;
+
+    this->parent=parent;
     grid = new QGridLayout();
-    this->buttonList=btnList;
+    //this->buttonList=btnList;
+    this->buttonList=this->ymodel->buttonList;
     setBoard();
     /*
     grid = new QGridLayout();
@@ -153,6 +158,11 @@ void MainBoard::setBoard(){
                         "border-radius:25px;";
         this->buttonList.at(i)->setStyleSheet(style);
         grid->addWidget(this->buttonList.at(i), row, col);
+
+
+        //connect(this->buttonList.at(i),SIGNAL(clickedBoardBtn(QPushButton*)),this->yctrl,SLOT(clickedBoardBtn(QPushButton*)));
+        connect(this->buttonList.at(i), SIGNAL(clicked(QPushButton*)), parent, SLOT(clicked(QPushButton*)));
+
         if(i<5){
             row -= 2;
         }else if(i<10){

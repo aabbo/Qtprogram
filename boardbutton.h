@@ -15,9 +15,9 @@ public:
     explicit BoardButton(QWidget *parent = nullptr);
 
 signals:
-
+    void clicked(QPushButton* btn);
 public slots:
-
+    void click();
 public:
     // 현재 위치 말 정보
     int num;
