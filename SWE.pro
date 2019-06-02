@@ -25,21 +25,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    controller.cpp \
         main.cpp \
         mainwindow.cpp \
     boardbutton.cpp \
     mainboard.cpp \
     resultdialog.cpp \
-    setupdialog.cpp
+    setupdialog.cpp \
+    yutcontroller.cpp \
+    yutmodel.cpp
 
 HEADERS += \
-    controller.h \
         mainwindow.h \
     boardbutton.h \
     mainboard.h \
     resultdialog.h \
-    setupdialog.h
+    setupdialog.h \
+    yutcontroller.h \
+    yutmodel.h
 
 FORMS += \
         mainwindow.ui \

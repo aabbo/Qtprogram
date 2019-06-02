@@ -1,11 +1,12 @@
-#include "controller.h"
+#include "yutcontroller.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Controller * controller = new Controller();
-    if(controller->gamestart==false){
+    YutController * yctrl=new YutController();
+    if(yctrl->gamestart==false){
         a.quit();
         return 0;
     }
