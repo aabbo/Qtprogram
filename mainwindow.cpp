@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "yutcontroller.h"
+#include "selectyutdialog.h"
 
 
 /**
@@ -24,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     //board = new MainBoard(ymodel->buttonList,this);
     board = new MainBoard(this->ymodel,this->yctrl,this);
     ui->MainBoardFrame->setLayout(board->grid);
+
+    //team set
+
 }
 
 bool MainWindow::setup_bool(){
@@ -43,3 +47,22 @@ void MainWindow::resizeEvent(QResizeEvent *event){
 
 }
 */
+
+void MainWindow::on_RandomButton_clicked()
+{
+    qDebug()<<"test==random btn clicked";
+    this->yctrl->clicked_YutRandom();
+}
+
+void MainWindow::on_SelectButton_clicked()
+{   //012345
+    qDebug()<<"test==select btn clicked";
+
+    SelectYutDialog selecDialog;
+    selecDialog.setModal(true);
+    selecDialog.exec();
+    if(selecDialog.status){
+        int yut=selecDialog.yut;
+        this->yctrl->clicked_YutSelect(yut);
+    }
+}

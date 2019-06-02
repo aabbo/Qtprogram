@@ -39,6 +39,9 @@ protected:
     SetupDialog *setupDig;
     ResultDialog *resultDig;
     //void resizeEvent(QResizeEvent* event);
+private slots:
+    void on_RandomButton_clicked();
+    void on_SelectButton_clicked();
 };
 
 #endif // MAINWINDOW_H

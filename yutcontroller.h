@@ -24,6 +24,9 @@ public:
     //mainwindow view
     void clickedBoardBtn(QPushButton* btn);
 
+    void clicked_YutRandom();
+    void clicked_YutSelect(int yut);
+
 private:
     MainWindow * mw;
     YutModel* ymodel;

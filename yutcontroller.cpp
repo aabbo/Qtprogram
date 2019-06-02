@@ -26,5 +26,11 @@ void YutController::setValueOfTeams(int val){
 void YutController::clickedBoardBtn(QPushButton* btn){
     qDebug() << "test==ctrl=="<<btn->objectName();
 }
+void YutController::clicked_YutRandom(){
+    qDebug() << "test==clicked_YutRandom()==";
+}
+void YutController::clicked_YutSelect(int yut){
+    qDebug() << "test==clicked_Yutselect()=="<<yut;
+}
 
 

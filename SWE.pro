@@ -30,6 +30,7 @@ SOURCES += \
     boardbutton.cpp \
     mainboard.cpp \
     resultdialog.cpp \
+    selectyutdialog.cpp \
     setupdialog.cpp \
     yutcontroller.cpp \
     yutmodel.cpp
@@ -39,6 +40,7 @@ HEADERS += \
     boardbutton.h \
     mainboard.h \
     resultdialog.h \
+    selectyutdialog.h \
     setupdialog.h \
     yutcontroller.h \
     yutmodel.h
@@ -46,6 +48,7 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
         resultdialog.ui \
+        selectyutdialog.ui \
         setupdialog.ui
 
 # Default rules for deployment.

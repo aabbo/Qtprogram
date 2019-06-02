@@ -23,6 +23,8 @@ public:
     int num;
     vector<QPushButton*> nextStep;
     vector<QPushButton*> prevStep;
+    int mals; //num of mal
+    int team; //whoes mal is in here
 };
 
 #endif // BOARDBUTTON_H
