@@ -8,21 +8,20 @@
  * @brief MainWindow::MainWindow
  * @param parent
  */
-MainWindow::MainWindow(QWidget *parent,YutController* ctrl) :
+MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->ymodel=model;
     this->yctrl=ctrl;
 
     //setup dialog execute
     setupDig = new SetupDialog(nullptr,this->yctrl);
     setupDig->exec();
 
-    //send value of mal and team
-
     //yutPan set
-    board = new MainBoard();
+    board = new MainBoard(ymodel->buttonList);
     ui->MainBoardFrame->setLayout(board->grid);
 }
 

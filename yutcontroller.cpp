@@ -7,12 +7,10 @@ YutController::YutController(QObject *parent) : QObject(parent)
     ymodel=new YutModel();
 
     //view
-    mw = new MainWindow(nullptr,this);
+    mw = new MainWindow(nullptr,ymodel,this);
     gamestart = mw->setup_bool();
     if(gamestart==true)
         mw->show();
-
-
 
 }
 void YutController::setValueOfMals(int val){

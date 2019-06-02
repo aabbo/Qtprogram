@@ -10,7 +10,8 @@ using namespace std;
 class MainBoard
 {
 public:
-    MainBoard();
+    MainBoard(vector<BoardButton*> btnList);
+    void setBoard();
 
 public:
     QGridLayout* grid;

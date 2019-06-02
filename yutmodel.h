@@ -21,6 +21,9 @@ public:
 public :
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
+private:
+    void setQQueueTeams(int teams);
+    void setButtonList();
 
 };
 
