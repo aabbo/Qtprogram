@@ -29,6 +29,8 @@ public:
     bool setup_bool();
     ~MainWindow();
 
+    void afterClickYut(bool status);
+
 private:
     Ui::MainWindow *ui;
     MainBoard* board;

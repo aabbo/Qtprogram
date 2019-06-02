@@ -21,6 +21,7 @@ public:
 public :
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
+    bool set_clickedYut(int yut);//if user click yut
 private:
     void setQQueueTeams(int teams);
     void setButtonList();

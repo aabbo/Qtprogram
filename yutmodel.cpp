@@ -5,7 +5,6 @@ YutModel::YutModel()
     numOfMal=2;
     numOfTeam=2;
     setButtonList();
-    //vector<BoardButton*> buttonList;
 }
 
 //================================================================
@@ -109,3 +108,42 @@ void YutModel::setButtonList(){
     this->buttonList[29]->nextStep.push_back(this->buttonList[0]);
 
 }
+
+//================================================================
+//
+// game start
+//
+//================================================================
+/**
+ * @brief YutModel::set_clickedYut
+ * @param yut
+ * -1 : random yut
+ * 0 : bbaek do
+ * 1 : do
+ * 2 : gae
+ * 3 : gul
+ * 4 : yut
+ * 5 : mo
+ */
+bool YutModel::set_clickedYut(int yut){
+    int mYut=yut;
+    if(yut==-1){
+        mYut=rand()%6;
+    }
+    //show yut img
+    //show yut result list
+
+    if(mYut==0 || mYut==1 || mYut==2 ||mYut==3){
+        yutResults.push_back(mYut);
+        //yut button setdisable
+        //move mal -> update mal which can moved
+        return true;
+
+    }else if(mYut==4 || mYut==5){
+        yutResults.push_back(mYut);
+        //one more time
+        return false;
+    }
+
+}
+

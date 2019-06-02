@@ -28,9 +28,13 @@ void YutController::clickedBoardBtn(QPushButton* btn){
 }
 void YutController::clicked_YutRandom(){
     qDebug() << "test==clicked_YutRandom()==";
+    bool status=ymodel->set_clickedYut(-1);
+    mw->afterClickYut(status);
 }
 void YutController::clicked_YutSelect(int yut){
     qDebug() << "test==clicked_Yutselect()=="<<yut;
+    bool status=ymodel->set_clickedYut(yut);
+    mw->afterClickYut(status);
 }
 
 

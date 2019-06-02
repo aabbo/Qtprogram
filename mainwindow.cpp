@@ -66,3 +66,21 @@ void MainWindow::on_SelectButton_clicked()
         this->yctrl->clicked_YutSelect(yut);
     }
 }
+
+/**
+ * @brief MainWindow::afterClickYut
+ * @param status
+ * true : yut result = 0,1,2,3
+ * false : yut result = 4,5
+ */
+void MainWindow::afterClickYut(bool status){
+    //show yut img
+    //show yut result list
+
+    if(status){
+        //yut button setdisable
+        //move mal -> update mal which can moved
+    }else{
+        //one more time
+    }
+}
