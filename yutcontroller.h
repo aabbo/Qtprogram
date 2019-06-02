@@ -19,6 +19,8 @@ public slots:
     //setupdialog view
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
+
+public:
     //mainwindow view
     void clickedBoardBtn(QPushButton* btn);
 

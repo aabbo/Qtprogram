@@ -159,8 +159,6 @@ void MainBoard::setBoard(){
         this->buttonList.at(i)->setStyleSheet(style);
         grid->addWidget(this->buttonList.at(i), row, col);
 
-
-        //connect(this->buttonList.at(i),SIGNAL(clickedBoardBtn(QPushButton*)),this->yctrl,SLOT(clickedBoardBtn(QPushButton*)));
         connect(this->buttonList.at(i), SIGNAL(clicked(QPushButton*)), parent, SLOT(clicked(QPushButton*)));
 
         if(i<5){

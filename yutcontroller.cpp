@@ -14,13 +14,17 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
 }
 void YutController::setValueOfMals(int val){
-    qDebug()<<"contrl=mal="<<val;
+    qDebug()<<"test==contrl=mal="<<val;
     ymodel->setValueOfMals(val);
 }
 void YutController::setValueOfTeams(int val){
-    qDebug()<<"contrl=team="<<val;
+    qDebug()<<"test==contrl=team="<<val;
     ymodel->setValueOfTeams(val);
 }
+
+
 void YutController::clickedBoardBtn(QPushButton* btn){
-    qDebug() << btn->objectName();
+    qDebug() << "test==ctrl=="<<btn->objectName();
 }
+
+

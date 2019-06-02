@@ -35,7 +35,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 void MainWindow::clicked(QPushButton *btn){
-    qDebug() << btn->objectName();
+    qDebug() <<"test==" <<btn->objectName();
+    this->yctrl->clickedBoardBtn(btn);
 }
 /*
 void MainWindow::resizeEvent(QResizeEvent *event){
