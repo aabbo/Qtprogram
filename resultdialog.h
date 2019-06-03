@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+class YutController;
+
 namespace Ui {
 class ResultDialog;
 }

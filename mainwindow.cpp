@@ -1,18 +1,12 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "yutcontroller.h"
-#include "selectyutdialog.h"
-#include <QImage>
-#include <QPixmap>
-#include <QLabel>
-
-
 
 /**
  * main view, call setupdialog and resultdialog
  * @brief MainWindow::MainWindow
  * @param parent
  */
+
 MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,10 +14,6 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     ui->setupUi(this);
     this->ymodel=model;
     this->yctrl=ctrl;
-
-    //setup dialog execute
-    setupDig = new SetupDialog(nullptr,this->yctrl);
-    setupDig->exec();
 
     //yutPan set
     //board = new MainBoard(ymodel->buttonList,this);
@@ -36,23 +26,15 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
 
 }
 
-bool MainWindow::setup_bool(){
-    return setupDig->startbool;
-}
-
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 void MainWindow::clicked(QPushButton *btn){
     qDebug() <<"test==" <<btn->objectName();
     this->yctrl->clickedBoardBtn(btn);
 }
-/*
-void MainWindow::resizeEvent(QResizeEvent *event){
-
-}
-*/
 
 void MainWindow::on_RandomButton_clicked()
 {
@@ -99,6 +81,7 @@ void MainWindow::afterClickYut(bool status){
  * @param yut
  * @return
  */
+
 bool MainWindow::setYutImg(int yut){
     bool status=true;
 
@@ -113,8 +96,8 @@ bool MainWindow::setYutImg(int yut){
 
     return status;
 }
+
 bool MainWindow::setYutResult(QQueue<int> result){
-    result.push_back(2);
     bool status=true;
     QString str="윷 결과리스트:";
     while(result.size()>0){
@@ -138,11 +121,7 @@ bool MainWindow::setYutResult(QQueue<int> result){
     return status;
 }
 
-
-
 void MainWindow::clickedBeforeMal(){
-
-
     qDebug()<<"test==clicked!!";
     //connect(this,SIGNAL(sendtoCtrl()),this->yctrl,SLOT());
 

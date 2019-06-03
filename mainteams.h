@@ -18,12 +18,8 @@ signals:
 
 public slots:
 
-
-
-
 private:
     void setTeams();
-
 
 public:
     QGridLayout* grid;

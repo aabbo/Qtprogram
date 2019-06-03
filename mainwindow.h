@@ -2,17 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-//#include <QResizeEvent>
 #include <QObject>
+#include <QImage>
+#include <QPixmap>
+#include <QLabel>
 
+#include "ui_mainwindow.h"
+#include "selectyutdialog.h"
 #include "mainboard.h"
 #include "mainteams.h"
-#include "setupdialog.h"
-#include "resultdialog.h"
-
-class YutController;
 #include "yutmodel.h"
 
+class YutController;
 
 namespace Ui {
 class MainWindow;
@@ -28,26 +29,18 @@ public slots:
 
 public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
-    bool setup_bool();
     ~MainWindow();
-
     void afterClickYut(bool status);
+
 private:
     bool setYutImg(int yut);
     bool setYutResult(QQueue<int> result);
-
-private:
     Ui::MainWindow *ui;
     MainBoard* board;
     MainTeams* teams;
-
     YutController* yctrl;
     YutModel* ymodel;
 
-protected:
-    SetupDialog *setupDig;
-    ResultDialog *resultDig;
-    //void resizeEvent(QResizeEvent* event);
 private slots:
     void on_RandomButton_clicked();
     void on_SelectButton_clicked();

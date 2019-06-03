@@ -1,6 +1,7 @@
 #include "mainteams.h"
 #include <QLabel>
 #include <QDebug>
+
 MainTeams::MainTeams(YutModel* model, YutController* ctrl,QWidget *parent) : QWidget(parent)
 {
     this->ymodel=model;
@@ -33,7 +34,7 @@ void MainTeams::setTeams(){
     for(int i=1;i<=this->ymodel->numOfTeam;i++){
         //team name
         QLabel* teamName=new QLabel();
-        teamName->setText("team"+QString::number(i+1));
+        teamName->setText("team"+QString::number(i));
         teamName->setMaximumSize(50,50);
         teamName->setMinimumSize(50,50);
         grid->addWidget(teamName,i,0);

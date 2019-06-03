@@ -1,7 +1,6 @@
 #include "setupdialog.h"
-#include "ui_setupdialog.h"
-#include <QDebug>
 #include "yutcontroller.h"
+#include <QDebug>
 
 SetupDialog::SetupDialog(QWidget *parent,YutController* ctrl) :
     QDialog(parent),
@@ -34,11 +33,14 @@ SetupDialog::~SetupDialog()
     delete ui;
 }
 
+bool SetupDialog::GetStartBool(){
+    return startbool;
+}
+
 void SetupDialog::on_player_slider_valueChanged(int value)
 {
     ui->player_num_label->setNum(value);
     emit setValueOfTeams(value);
-
 }
 
 void SetupDialog::on_mal_slider_valueChanged(int value)
@@ -49,8 +51,6 @@ void SetupDialog::on_mal_slider_valueChanged(int value)
 
 void SetupDialog::on_start_button_clicked()
 {
-    playerNum = ui->player_num_label->text().toInt();
-    malNum = ui->mal_num_label->text().toInt();
     this->close();
 }
 
@@ -59,4 +59,3 @@ void SetupDialog::on_cancel_button_clicked()
     startbool = false;
     this->close();
 }
-

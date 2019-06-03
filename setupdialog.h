@@ -2,6 +2,8 @@
 #define SETUPDIALOG_H
 
 #include <QDialog>
+#include <QObject>
+#include "ui_setupdialog.h"
 class YutController;
 
 namespace Ui {
@@ -13,7 +15,8 @@ class SetupDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SetupDialog(QWidget *parent = nullptr,YutController* ctrl=nullptr);
+    explicit SetupDialog(QWidget *parent = nullptr, YutController* ctrl=nullptr);
+    bool GetStartBool();
     ~SetupDialog();
 
 private slots:
@@ -25,19 +28,13 @@ private slots:
 
     void on_cancel_button_clicked();
 
-
-   signals:
+signals:
     void setValueOfTeams(int value);
     void setValueOfMals(int value);
-
 
 private:
     YutController* yctrl;
     Ui::SetupDialog *ui;
-    int playerNum;
-    int malNum;
-
-public:
     bool startbool;
 };
 

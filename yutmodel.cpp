@@ -1,5 +1,6 @@
 #include "yutmodel.h"
 #include <QDebug>
+
 YutModel::YutModel()
 {
     numOfMal=2;
@@ -20,6 +21,7 @@ void YutModel:: setValueOfMals(int val){
      qDebug()<<"model mal="<<val;
      this->numOfMal=val;
 }
+
 /**
  * @brief YutModel::setValueOfTeams
  * @param val
@@ -28,6 +30,7 @@ void YutModel:: setValueOfTeams(int val){
      qDebug()<<"model team="<<val;
      this->numOfTeam=val;
 }
+
 /** set teams queue
  * @brief YutModel::setQQueueTeams
  * @param teams
@@ -39,6 +42,7 @@ void YutModel::setQQueueTeams(int teams){
         }
     }
 }
+
 /**
  * @brief YutModel::setButtonList
  */
@@ -138,12 +142,9 @@ bool YutModel::set_clickedYut(int yut){
         //yut button setdisable
         //move mal -> update mal which can moved
         return true;
-
     }else if(mYut==4 || mYut==5){
         yutResults.push_back(mYut);
         //one more time
         return false;
     }
-
 }
-

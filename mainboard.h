@@ -2,13 +2,12 @@
 #define MAINBOARD_H
 
 #include "boardbutton.h"
+#include "yutmodel.h"
 #include <QtWidgets>
 #include <vector>
 #include <QGridLayout>
 
-
 class YutController;
-#include "yutmodel.h"
 
 using namespace std;
 
