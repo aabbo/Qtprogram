@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     board = new MainBoard(this->ymodel,this->yctrl,this);
     ui->MainBoardFrame->setLayout(board->grid);
 
+    // button set
+    this->ui->SelectButtonStack->setCurrentIndex(0);
+
     //team set
     teams=new MainTeams(this->ymodel,this->yctrl,this);
     ui->InfoFrame->setLayout(teams->grid);
@@ -45,15 +48,19 @@ void MainWindow::on_RandomButton_clicked()
 void MainWindow::on_SelectButton_clicked()
 {   //012345
     qDebug()<<"test==select btn clicked";
-
-    SelectYutDialog selecDialog;
-    selecDialog.setModal(true);
-    selecDialog.exec();
-    if(selecDialog.status){
-        int yut=selecDialog.yut;
-        this->yctrl->clicked_YutSelect(yut);
-    }
+    this->ui->SelectButtonStack->setCurrentIndex(1);
 }
+
+void MainWindow::on_SelectThrow_clicked()
+{
+    this->yctrl->clicked_YutSelect(this->yut);
+}
+
+void MainWindow::on_BackPage_clicked()
+{
+    this->ui->SelectButtonStack->setCurrentIndex(0);
+}
+
 
 /**
  * @brief MainWindow::afterClickYut------구현 덜함!!!
@@ -124,5 +131,34 @@ bool MainWindow::setYutResult(QQueue<int> result){
 void MainWindow::clickedBeforeMal(){
     qDebug()<<"test==clicked!!";
     //connect(this,SIGNAL(sendtoCtrl()),this->yctrl,SLOT());
+}
 
+void MainWindow::on_BackDo_clicked()
+{
+    this->yut = 0;
+}
+
+void MainWindow::on_Do_clicked()
+{
+    this->yut = 1;
+}
+
+void MainWindow::on_Gae_clicked()
+{
+    this->yut = 2;
+}
+
+void MainWindow::on_Gul_clicked()
+{
+    this->yut = 3;
+}
+
+void MainWindow::on_Yut_clicked()
+{
+    this->yut = 4;
+}
+
+void MainWindow::on_Mo_clicked()
+{
+    this->yut = 5;
 }

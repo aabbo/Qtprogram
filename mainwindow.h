@@ -40,10 +40,19 @@ private:
     MainTeams* teams;
     YutController* yctrl;
     YutModel* ymodel;
+    int yut;
 
 private slots:
     void on_RandomButton_clicked();
     void on_SelectButton_clicked();
+    void on_SelectThrow_clicked();
+    void on_BackPage_clicked();
+    void on_BackDo_clicked();
+    void on_Do_clicked();
+    void on_Gae_clicked();
+    void on_Gul_clicked();
+    void on_Yut_clicked();
+    void on_Mo_clicked();
 };
 
 #endif // MAINWINDOW_H
