@@ -48,9 +48,10 @@ void MainTeams::setTeams(){
             btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             btn->setMinimumSize(50,50);
             btn->setMaximumSize(50,50);
-            btn->setText(QString::number(arr[j]));
-            QString stylebtn = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
-                            ;//"border-radius:25px;"
+//            btn->setText(QString::number(arr[j]));
+            QString imageUrl = ":/img/team" + QString::number(i) + "_" + QString::number(arr[j]) + ".png";
+            QString stylebtn = "image: url(" + imageUrl + "); border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
+                            "border-radius:25px;";
             btn->setStyleSheet(stylebtn);
             grid->addWidget(btn,i,j+1);
             if(j==0){
