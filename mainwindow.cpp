@@ -101,16 +101,15 @@ void MainWindow::afterClickYut(bool status){
  */
 bool MainWindow::setYutImg(int yut){
     bool status=true;
-    QString path=QCoreApplication::applicationDirPath();
-    //C:\Users\helen\Desktop\newYut\build-SWE-Desktop_Qt_5_12_2_MinGW_64_bit-Debug\debug
-    path.chop(path.lastIndexOf("/"));
-    path.chop(path.lastIndexOf("/"));
-    QString filepath=":../../img/yut_"+QString::number(yut)+".png";
-    QPixmap *buffer = new QPixmap(filepath);  //버퍼로 사용할 QPixmap 선언
 
-    int w=ui->YutImage->width();
-    int h=ui->YutImage->height();
-    ui->YutImage->setPixmap(buffer->scaled(w,h,Qt::KeepAspectRatio));
+    QString filepath=":/img/yut_"+QString::number(yut)+".png";
+    QPixmap  mypix = QPixmap(filepath);
+    int size=ui->YutImage->width();
+    if(size>ui->YutImage->height())
+        size=ui->YutImage->height();
+    mypix = mypix.scaled(size,size , Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->YutImage->setPixmap(mypix);
+    //delete mypix;
 
     return status;
 }

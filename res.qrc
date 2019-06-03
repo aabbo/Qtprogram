@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
+        <file>img/yut_0.png</file>
+        <file>img/yut_1.png</file>
+        <file>img/yut_2.png</file>
+        <file>img/yut_3.png</file>
+        <file>img/yut_4.png</file>
+        <file>img/yut_5.png</file>
         <file>img/team1_1.png</file>
         <file>img/team1_2.png</file>
         <file>img/team1_3.png</file>
@@ -20,11 +26,5 @@
         <file>img/team4_3.png</file>
         <file>img/team4_4.png</file>
         <file>img/team4_5.png</file>
-        <file>img/yut_0.png</file>
-        <file>img/yut_1.png</file>
-        <file>img/yut_2.png</file>
-        <file>img/yut_3.png</file>
-        <file>img/yut_4.png</file>
-        <file>img/yut_5.png</file>
     </qresource>
 </RCC>
