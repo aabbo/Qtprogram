@@ -30,6 +30,9 @@ public:
     ~MainWindow();
 
     void afterClickYut(bool status);
+private:
+    bool setYutImg(int yut);
+    bool setYutResult(QQueue<int> result);
 
 private:
     Ui::MainWindow *ui;
