@@ -12,7 +12,25 @@ MainTeams::MainTeams(YutModel* model, YutController* ctrl,QWidget *parent) : QWi
 }
 void MainTeams::setTeams(){
 
-    for(int i=0;i<this->ymodel->numOfTeam;i++){
+    QLabel* label0=new QLabel();
+    label0->setText("게임전");
+    label0->setMaximumSize(50,80);
+    label0->setMinimumSize(50,80);
+    grid->addWidget(label0,0,1);
+
+    QLabel* label1=new QLabel();
+    label1->setText("게임중");
+    label1->setMaximumSize(50,80);
+    label1->setMinimumSize(50,80);
+    grid->addWidget(label1,0,2);
+
+    QLabel* label2=new QLabel();
+    label2->setText("탈출");
+    label2->setMaximumSize(50,80);
+    label2->setMinimumSize(50,80);
+    grid->addWidget(label2,0,3);
+
+    for(int i=1;i<=this->ymodel->numOfTeam;i++){
         //team name
         QLabel* teamName=new QLabel();
         teamName->setText("team"+QString::number(i+1));
