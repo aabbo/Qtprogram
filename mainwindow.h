@@ -6,6 +6,7 @@
 #include <QObject>
 
 #include "mainboard.h"
+#include "mainteams.h"
 #include "setupdialog.h"
 #include "resultdialog.h"
 
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
 
 public slots:
    void clicked(QPushButton* btn);
+   void clickedBeforeMal();
 
 public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
@@ -37,6 +39,8 @@ private:
 private:
     Ui::MainWindow *ui;
     MainBoard* board;
+    MainTeams* teams;
+
     YutController* yctrl;
     YutModel* ymodel;
 

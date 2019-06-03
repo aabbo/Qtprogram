@@ -181,7 +181,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>TextLabel</string>
+               <string>윷 결과리스트:</string>
               </property>
              </widget>
             </item>

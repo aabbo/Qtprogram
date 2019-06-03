@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
+    mainteams.cpp \
         mainwindow.cpp \
     boardbutton.cpp \
     mainboard.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     yutmodel.cpp
 
 HEADERS += \
+    mainteams.h \
         mainwindow.h \
     boardbutton.h \
     mainboard.h \

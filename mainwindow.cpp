@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     ui->MainBoardFrame->setLayout(board->grid);
 
     //team set
+    teams=new MainTeams(this->ymodel,this->yctrl,this);
+    ui->InfoFrame->setLayout(teams->grid);
 
 }
 
@@ -72,7 +74,7 @@ void MainWindow::on_SelectButton_clicked()
 }
 
 /**
- * @brief MainWindow::afterClickYut
+ * @brief MainWindow::afterClickYut------구현 덜함!!!
  * @param status
  * true : yut result = 0,1,2,3
  * false : yut result = 4,5
@@ -92,6 +94,11 @@ void MainWindow::afterClickYut(bool status){
     }
 }
 
+/**
+ * @brief MainWindow::setYutImg ----파일경로!해결해야함
+ * @param yut
+ * @return
+ */
 bool MainWindow::setYutImg(int yut){
     bool status=true;
     QString path=QCoreApplication::applicationDirPath();
@@ -105,22 +112,6 @@ bool MainWindow::setYutImg(int yut){
     int h=ui->YutImage->height();
     ui->YutImage->setPixmap(buffer->scaled(w,h,Qt::KeepAspectRatio));
 
-
-/*
-    if(Img->load(filepath)) //이미지를 로드
-    {
-        *buffer = QPixmap::fromImage(*Img);   //이미지를 버퍼에 옮긴다.
-        *buffer = buffer->scaled(Img->width(),Img->height()); //이미지 사이즈 조절
-    }else{ // 이미지 로드 실패
-        QMessageBox::about(0, "Image load Error","Image load Error");
-    }
-
-    QLabel* lbview=ui->YutImage;
-    //QLabel *lbview=new QLabel(this);
-    lbview->setPixmap(*buffer);
-    lbview->resize(buffer->width(),buffer->height());
-    lbview->show();
-*/
     return status;
 }
 bool MainWindow::setYutResult(QQueue<int> result){
@@ -146,4 +137,14 @@ bool MainWindow::setYutResult(QQueue<int> result){
     }
     ui->ResultLabel->setText(str);
     return status;
+}
+
+
+
+void MainWindow::clickedBeforeMal(){
+
+
+    qDebug()<<"test==clicked!!";
+    //connect(this,SIGNAL(sendtoCtrl()),this->yctrl,SLOT());
+
 }
