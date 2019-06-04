@@ -161,6 +161,10 @@ QVector<int> YutModel::getAllRemainMalNum(){
     return this->remainMalNum;
 }
 
+QVector<bool> YutModel::getMalExistVec(){
+    return this->isMalExist;
+}
+
 int YutModel::getCurrentTeamOuttedMalNum(){
     return this->outtedMalNum[this->currentTeamNum-1];
 }
@@ -183,6 +187,12 @@ bool YutModel::calcFromStartButton(){
         btn = btn->nextStep[0];
     }
     this->clickableLocation.push_back(btn->num);
+    if(btn->mals){
+        this->isMalExist.push_back(true);
+    }
+    else {
+        this->isMalExist.push_back(false);
+    }
     this->remainMalNum[this->currentTeamNum-1] -= 1;
     return true;
 }
@@ -192,6 +202,8 @@ void YutModel::calcFromBoardButton(){
 }
 
 bool YutModel::setBoardButton(){
+    // false : 말 잡기x
+    // true : 말 잡기 ㅇ
     BoardButton* btn = this->buttonList[this->clickedButtonNum];
     if(!btn->mals){
         // 빈칸
@@ -199,6 +211,18 @@ bool YutModel::setBoardButton(){
         btn->team = this->currentTeamNum;
         this->malLocation[this->currentTeamNum].push_back(btn->num);
         return false;
+    }
+    else {
+        if(btn->team == this->currentTeamNum){
+            //업기
+            btn->mals++;
+            return false;
+        }
+        else{
+            //잡기
+
+            return true;
+        }
     }
 }
 
@@ -209,6 +233,7 @@ int YutModel::getCurrentButtonMalNum(){
 
 void YutModel::endTurn(){
     this->clickableLocation.clear();
+    this->isMalExist.clear();
     this->currentTeamNum++;
     if(this->currentTeamNum > this->numOfTeam)
         this->currentTeamNum = 1;

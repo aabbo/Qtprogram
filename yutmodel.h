@@ -23,6 +23,7 @@ private:
     QMap<int, QQueue<int>> teamYutInfo;
     QMap<int, QVector<int>> malLocation;
     QVector<int> clickableLocation;
+    QVector<bool> isMalExist;
     QVector<BoardButton*> buttonList;
 
 
@@ -40,6 +41,7 @@ public :
     int getCurrentTeamNum();
     int getCurrentButtonMalNum();
     QVector<int> getCurrentClickableLocation();
+    QVector<bool> getMalExistVec();
     QVector<int> getCurrentMalLocation();
 
     bool calcFromStartButton();

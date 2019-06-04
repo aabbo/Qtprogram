@@ -94,10 +94,17 @@ void MainWindow::enableCurrentBoardButtonLocation(){
     // 이동 가능한 BoardButton을 하이라이팅
     // 해당 버튼 클릭기능 활성화
     QVector<int> location = this->ymodel->getCurrentClickableLocation();
+    QVector<bool> isExist = this->ymodel->getMalExistVec();
     if(location.size() > 0){
         for(int i=0; i<location.size(); i++){
             this->board->buttonList[location[i]]->setDisabled(false);
-            this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
+            if(isExist[i]){
+                this->board->setButtonStyleSheet(location[i], this->ymodel->getCurrentTeamNum(),
+                                                 this->ymodel->getCurrentButtonMalNum(), this->ButtonBorderHighlight);
+            }
+            else {
+                this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
+            }
         }
     }
 }

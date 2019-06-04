@@ -51,7 +51,6 @@ private:
 
     void clearYutFrame();
 
-
 protected:
     bool eventFilter(QObject* object, QEvent* event);
 

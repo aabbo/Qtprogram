@@ -58,7 +58,8 @@ void YutController::clickedRemainedMal(){
         if(this->ymodel->getCurrentTeamRemainMalNum() == 5){
             // 보드에 말이 올라가 있지 않은 상황에 빽도
             // 턴 종료
-
+            emit boardButtonClicked();
+            emit updateQueue(this->ymodel->isQueueEmpty());
         }
         else{
             // 보드에 말이 올라가 있는 상황에 빽도
