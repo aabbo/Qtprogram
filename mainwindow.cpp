@@ -39,9 +39,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event){
     if(event->type() == QMouseEvent::MouseButtonPress){
-        if(object->objectName().toInt()){
-            this->yctrl->clickedBoardBtn(object->objectName().toInt());
-        }
+        this->yctrl->clickedBoardBtn(object->objectName().toInt());
     }
     return QWidget::eventFilter(object, event);
 }

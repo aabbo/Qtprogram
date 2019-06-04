@@ -31,7 +31,8 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
     for(int i=1;i<=totalTeamNum;i++){
         //team name
         QLabel* teamName=new QLabel();
-        teamName->setText("team"+QString::number(i));
+        teamName->setText("팀"+QString::number(i));
+        teamName->setAlignment(Qt::AlignCenter);
         teamName->setMaximumSize(50,50);
         teamName->setMinimumSize(50,50);
         this->teamLabelList.push_back(teamName);

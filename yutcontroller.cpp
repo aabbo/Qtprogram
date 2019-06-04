@@ -24,6 +24,7 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
 void YutController::clickedBoardBtn(int num){
     qDebug() << "test==ctrl=="<< QString::number(num);
+    this->ymodel->clickedButtonNum = num;
 }
 
 void YutController::clicked_YutRandom(){

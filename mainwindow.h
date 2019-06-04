@@ -30,7 +30,9 @@ public slots:
 public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
     ~MainWindow();
+
     void afterClickYut(bool status);
+    void endTurn();
 
 private:
     bool setYutImg(int yut);
@@ -40,6 +42,7 @@ private:
 
 protected:
     bool eventFilter(QObject* object, QEvent* event);
+
 private slots:
     void on_RandomButton_clicked();
     void on_SelectButton_clicked();
@@ -62,7 +65,8 @@ private:
 
     const QString ButtonStyle = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
                                      "border-radius:25px;";
-    const QString LabelStyle = "background-color:rgba(0,0,255,50%);";
+    const QString LabelStyle = "image : url(:/img/highlight.png);";
+    const QString initStyle = "";
 };
 
 #endif // MAINWINDOW_H

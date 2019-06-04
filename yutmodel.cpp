@@ -5,6 +5,13 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
 {
     this->remainMalNum.fill(0,5);
     this->outtedMalNum.fill(0,5);
+
+    QVector<int> tmp;
+    for(int i=1; i<=totalTeamNum;i++)
+        this->malLocation.insert(i, tmp);
+
+    this->clickedButtonNum = 0;
+
     setButtonList();
 }
 
@@ -52,10 +59,8 @@ void YutModel::setButtonList(){
                 tmpBtn->nextStep.push_back(this->buttonList[22]);
                 tmpBtn->prevStep.push_back(this->buttonList[9]);
             }else {
-                qDebug()<<"jalo"<<i;
                 tmpBtn->nextStep.push_back(this->buttonList[i+1]);
                 tmpBtn->prevStep.push_back(this->buttonList[i-1]);
-                qDebug()<<"here"<<i;
             }
         }else if(i==19){
             tmpBtn->nextStep.push_back(this->buttonList[0]);
