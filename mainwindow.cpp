@@ -109,7 +109,7 @@ bool MainWindow::setYutResult(QQueue<int> result){
     QString str="윷 결과리스트:";
     while(result.size()>0){
         int yut=result.front();
-        result.pop_front();
+        result.dequeue();
         if(yut==0){
             str=str+" ->빽도";
         }else if(yut==1){

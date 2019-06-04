@@ -38,7 +38,7 @@ void YutModel:: setValueOfTeams(int val){
 void YutModel::setQQueueTeams(int teams){
     if(Teams.size()!=teams){
         for(int i=1;i<=teams;i++){ //start idx from "1"
-            this->Teams.push_back(teams);
+            this->Teams.push_back(i);
         }
     }
 }

@@ -13,6 +13,109 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">/*rgb(255, 231, 205) --beige..?
+
+132,60,12 --brown
+*/
+
+/*============background===============*/
+
+QDialog {
+	background-color:rgb(255,231,205);
+
+
+}
+
+/*============button===============*/
+
+
+
+
+QPushButton{
+	background-color:rgb(132,60,12 ); 
+ border-radius: 25px;
+button-layout:0;
+font: 13pt &quot;제주고딕&quot;;
+margin:10px;
+max-width:140px;
+max-height:70px;
+min-width:100px;
+min-height:50px;
+
+
+}
+QPushButton:pressed {
+background-color:rgb(213, 153, 103);
+}
+
+QPushButton:disabled {
+    background-color: rgb(139, 112, 70);
+}
+QPushButton:hover{
+	background-color:rgb(255,231,205);
+border-width: 2px;
+    border-style: solid;
+border-color:3px rgb(132,60,12 ); 
+ border-radius: 25px;
+
+
+
+}
+/*============QLabel===============*/
+QLabel{
+text-align:right;
+	font: 15pt &quot;제주고딕&quot;;
+
+}
+
+/*==============QSlider=============*/
+QSlider::groove:horizontal {
+border: 2px solid rgb(132,60,12 );
+background: white;
+height: 13px;
+border-radius: 6px;
+}
+
+QSlider::add-page:horizontal {
+background: #fff;
+border: 2px solid #777;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+
+background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
+    stop: 0 rgb(213, 131, 58), stop: 1 rgb(213, 131, 58));
+background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+    stop: 0 rgb(213, 131, 58), stop: 1 rgb(213, 131, 58));
+
+border: 2px solid rgb(132,60,12 ); 
+height: 10px;
+border-radius: 4px;
+}
+
+
+QSlider::handle:horizontal {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 #eee, stop:1 #ccc);
+border: 1px solid #777;
+width: 13px;
+margin-top: -2px;
+margin-bottom: -2px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal:hover {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 #fff, stop:1 #ddd);
+border: 1px solid #444;
+border-radius: 4px;
+}
+
+</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -32,11 +135,101 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="styleSheet">
+             <string notr="true">
+QLabel{
+
+test-align:center;
+margin:10px;
+max-width:200px;
+max-height:200px;
+min-width:200px;
+min-height:200px;
+	font: 30pt &quot;제주고딕&quot;;
+}</string>
+            </property>
+            <property name="text">
+             <string>&lt;윷놀이&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="player_num">
           <item>
            <widget class="QLabel" name="player_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -48,8 +241,20 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>99</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::NoTicks</enum>
             </property>
            </widget>
           </item>
@@ -57,6 +262,9 @@
            <widget class="QLabel" name="player_num_label">
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -75,6 +283,9 @@
             <property name="text">
              <string>TextLabel</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
           <item>
@@ -92,8 +303,17 @@
           </item>
           <item>
            <widget class="QLabel" name="mal_num_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -113,6 +333,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="start_button">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>

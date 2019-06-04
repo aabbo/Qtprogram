@@ -14,8 +14,10 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
     //mainwindow
     mw = new MainWindow(nullptr,ymodel,this);
-    if(gamestart==true)
+    if(gamestart==true){
+
         mw->show();
+    }
 
     //result dialog
 }

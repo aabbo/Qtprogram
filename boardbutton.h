@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QPushButton>
-
 #include <vector>
 
 using namespace std;
