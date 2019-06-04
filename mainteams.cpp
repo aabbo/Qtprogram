@@ -2,13 +2,12 @@
 #include <QLabel>
 #include <QDebug>
 
-MainTeams::MainTeams(YutModel* model, YutController* ctrl,QWidget *parent) : QWidget(parent)
+MainTeams::MainTeams(int teamNum, int malNum, QWidget *parent) : QWidget(parent)
 {
-    this->ymodel=model;
-    this->yctrl=ctrl;
-    this->parent=parent;
-
     grid=new QGridLayout();
+    this->parent = parent;
+    this->totalTeamNum = teamNum;
+    this->totalMalNum = malNum;
     setTeams();
 }
 void MainTeams::setTeams(){
@@ -31,7 +30,7 @@ void MainTeams::setTeams(){
     label2->setMinimumSize(50,80);
     grid->addWidget(label2,0,3);
 
-    for(int i=1;i<=this->ymodel->numOfTeam;i++){
+    for(int i=1;i<=this->totalTeamNum;i++){
         //team name
         QLabel* teamName=new QLabel();
         teamName->setText("team"+QString::number(i));
@@ -39,7 +38,7 @@ void MainTeams::setTeams(){
         teamName->setMinimumSize(50,50);
         grid->addWidget(teamName,i,0);
 
-        int arr[3]={ymodel->numOfMal,0,0};
+        int arr[3]={this->totalMalNum,0,0};
         for(int j=0;j<3;j++){
             QPushButton* btn=new QPushButton();
             if(j==0){

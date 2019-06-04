@@ -17,16 +17,15 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
 
     //yutPan set
     //board = new MainBoard(ymodel->buttonList,this);
-    board = new MainBoard(this->ymodel,this->yctrl,this);
+    board = new MainBoard(this);
     ui->MainBoardFrame->setLayout(board->grid);
 
     // button set
     this->ui->SelectButtonStack->setCurrentIndex(0);
 
     //team set
-    teams=new MainTeams(this->ymodel,this->yctrl,this);
+    teams=new MainTeams(this->ymodel->numOfTeam, this->ymodel->numOfMal, this);
     ui->InfoFrame->setLayout(teams->grid);
-
 }
 
 MainWindow::~MainWindow()
@@ -34,10 +33,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::clicked(QPushButton *btn){
-    qDebug() <<"test==" <<btn->objectName();
-    this->yctrl->clickedBoardBtn(btn);
+bool MainWindow::eventFilter(QObject *object, QEvent *event){
+    if(event->type() == QMouseEvent::MouseButtonPress){
+        if(object->objectName().toInt()){
+            this->yctrl->clickedBoardBtn(object->objectName().toInt());
+        }
+    }
+    return QWidget::eventFilter(object, event);
 }
+
 
 void MainWindow::on_RandomButton_clicked()
 {

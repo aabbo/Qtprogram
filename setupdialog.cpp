@@ -7,8 +7,6 @@ SetupDialog::SetupDialog(QWidget *parent,YutController* ctrl) :
     ui(new Ui::SetupDialog)
 {
     this->yctrl=ctrl;
-    connect(this,SIGNAL(setValueOfMals(int)),this->yctrl,SLOT(setValueOfMals(int)));
-    connect(this,SIGNAL(setValueOfTeams(int)),this->yctrl,SLOT(setValueOfTeams(int)));
 
     ui->setupUi(this);
     startbool = true;
@@ -40,13 +38,13 @@ bool SetupDialog::GetStartBool(){
 void SetupDialog::on_player_slider_valueChanged(int value)
 {
     ui->player_num_label->setNum(value);
-    emit setValueOfTeams(value);
+    this->totalTeamNum = value;
 }
 
 void SetupDialog::on_mal_slider_valueChanged(int value)
 {
     ui->mal_num_label->setNum(value);
-    emit setValueOfMals(value);
+    this->totalMalNum = value;
 }
 
 void SetupDialog::on_start_button_clicked()

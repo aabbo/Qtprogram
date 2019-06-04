@@ -2,21 +2,25 @@
 #define YUTMODEL_H
 
 #include <QQueue>
+#include <QMap>
+#include <QVector>
 #include "boardbutton.h"
 
 class YutModel
 {
 public:
-    YutModel();
+    YutModel(int totalTeamNum, int totalMalNum);
 
 public:
-    int numOfMal;
-    int numOfTeam;
+    const int numOfMal;
+    const int numOfTeam;
+
+    int clickedButtonNum;
 
     QQueue<int> Teams;
-    QQueue<int> yutResults;
+    QQueue<int> yutResults; //=> QMap으로 통합
 
-    vector<BoardButton*> buttonList;
+    QVector<BoardButton*> buttonList;
 
 public :
     void setValueOfMals(int val);

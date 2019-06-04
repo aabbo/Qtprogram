@@ -3,14 +3,14 @@
 
 YutController::YutController(QObject *parent) : QObject(parent)
 {
-    //Model
-    ymodel = new YutModel();
-
     //View
     //setup dialog
     sd = new SetupDialog(nullptr,this);
     sd->exec();
     gamestart = sd->GetStartBool();
+
+    //Model
+    ymodel = new YutModel(sd->totalTeamNum, sd->totalMalNum);
 
     //mainwindow
     mw = new MainWindow(nullptr,ymodel,this);
@@ -22,18 +22,8 @@ YutController::YutController(QObject *parent) : QObject(parent)
     //result dialog
 }
 
-void YutController::setValueOfMals(int val){
-    qDebug()<<"test==contrl=mal="<<val;
-    ymodel->setValueOfMals(val);
-}
-
-void YutController::setValueOfTeams(int val){
-    qDebug()<<"test==contrl=team="<<val;
-    ymodel->setValueOfTeams(val);
-}
-
-void YutController::clickedBoardBtn(QPushButton* btn){
-    qDebug() << "test==ctrl=="<<btn->objectName();
+void YutController::clickedBoardBtn(int num){
+    qDebug() << "test==ctrl=="<< QString::number(num);
 }
 
 void YutController::clicked_YutRandom(){

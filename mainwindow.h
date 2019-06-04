@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QLabel>
+#include <QEvent>
 
 #include "ui_mainwindow.h"
 #include "selectyutdialog.h"
@@ -24,7 +25,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public slots:
-   void clicked(QPushButton* btn);
    void clickedBeforeMal();
 
 public:
@@ -42,6 +42,8 @@ private:
     YutModel* ymodel;
     int yut;
 
+protected:
+    bool eventFilter(QObject* object, QEvent* event);
 private slots:
     void on_RandomButton_clicked();
     void on_SelectButton_clicked();

@@ -15,14 +15,9 @@ public:
     explicit YutController(QObject *parent = nullptr);
     bool gamestart;
 
-public slots:
-    //setupdialog view
-    void setValueOfMals(int val);
-    void setValueOfTeams(int val);
-
 public:
     //mainwindow view
-    void clickedBoardBtn(QPushButton* btn);
+    void clickedBoardBtn(int num);
     void clicked_YutRandom();
     void clicked_YutSelect(int yut);
 

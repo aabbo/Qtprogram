@@ -1,10 +1,8 @@
 #include "yutmodel.h"
 #include <QDebug>
 
-YutModel::YutModel()
+YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), numOfTeam(totalTeamNum)
 {
-    numOfMal=2;
-    numOfTeam=2;
     setButtonList();
 }
 
@@ -13,24 +11,6 @@ YutModel::YutModel()
 // before game start, setup
 //
 //================================================================
-/**
- * @brief YutModel::setValueOfMals
- * @param val
- */
-void YutModel:: setValueOfMals(int val){
-     qDebug()<<"model mal="<<val;
-     this->numOfMal=val;
-}
-
-/**
- * @brief YutModel::setValueOfTeams
- * @param val
- */
-void YutModel:: setValueOfTeams(int val){
-     qDebug()<<"model team="<<val;
-     this->numOfTeam=val;
-}
-
 /** set teams queue
  * @brief YutModel::setQQueueTeams
  * @param teams
@@ -48,12 +28,10 @@ void YutModel::setQQueueTeams(int teams){
  */
 void YutModel::setButtonList(){
     for(int i=0;i<29;i++){
-        BoardButton* btn=new BoardButton();
-        btn->setObjectName(QString::number(i));
+        BoardButton* btn=new BoardButton(i);
         this->buttonList.push_back(btn);
     }
-    BoardButton* btn = new BoardButton();
-    btn->setObjectName("end");
+    BoardButton* btn = new BoardButton(30);
     this->buttonList.push_back(btn);
 
     for(int i=0; i<20; i++){

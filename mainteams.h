@@ -11,7 +11,7 @@ class MainTeams : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MainTeams(YutModel* model, YutController* ctrl,QWidget *parent = nullptr);
+    explicit MainTeams(int teamNum, int malNum, QWidget *parent = nullptr);
 
 signals:
     void sendtoCtrl();
@@ -25,9 +25,9 @@ public:
     QGridLayout* grid;
 
 private:
-    QWidget* parent;
-    YutModel* ymodel;
-    YutController* yctrl;
+    QWidget *parent;
+    int totalTeamNum;
+    int totalMalNum;
 };
 
 #endif // MAINTEAMS_H

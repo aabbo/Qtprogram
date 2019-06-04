@@ -31,11 +31,14 @@ private slots:
 signals:
     void setValueOfTeams(int value);
     void setValueOfMals(int value);
-
+public:
+    int totalTeamNum;
+    int totalMalNum;
 private:
     YutController* yctrl;
     Ui::SetupDialog *ui;
     bool startbool;
+
 };
 
 #endif // SETUPDIALOG_H

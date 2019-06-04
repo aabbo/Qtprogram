@@ -1,27 +1,19 @@
 #ifndef BOARDBUTTON_H
 #define BOARDBUTTON_H
 
-#include <QWidget>
 #include <QPushButton>
-#include <vector>
+#include <QVector>
 
-using namespace std;
-
-class BoardButton : public QPushButton
+class BoardButton
 {
-    Q_OBJECT
 public:
-    explicit BoardButton(QWidget *parent = nullptr);
+    explicit BoardButton(int num);
 
-signals:
-    void clicked(QPushButton* btn);
-public slots:
-    void click();
 public:
     // 현재 위치 말 정보
-    int num;
-    vector<QPushButton*> nextStep;
-    vector<QPushButton*> prevStep;
+    const int num;
+    QVector<BoardButton*> nextStep;
+    QVector<BoardButton*> prevStep;
     int mals; //num of mal
     int team; //whoes mal is in here
 };
