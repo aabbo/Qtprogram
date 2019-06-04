@@ -19,9 +19,6 @@ void MainBoard::setBoard(){
         this->buttonList.at(i)->setMaximumSize(50,50);
         this->buttonList.at(i)->setText(QString::number(i));
         btn->setObjectName(QString::number(i));
-        QString style = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
-                        "border-radius:25px;";
-        this->buttonList.at(i)->setStyleSheet(style);
         grid->addWidget(this->buttonList.at(i), row, col);
 
         this->buttonList.at(i)->installEventFilter(parent);
@@ -85,4 +82,10 @@ void MainBoard::setBoard(){
         }
     }
 
+}
+
+void MainBoard::setButtonStyleSheetAll(QString style){
+    for(auto itr = this->buttonList.begin(); itr != this->buttonList.end(); ++itr){
+        (*itr)->setStyleSheet(style);
+    }
 }

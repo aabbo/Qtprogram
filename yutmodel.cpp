@@ -3,6 +3,8 @@
 
 YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), numOfTeam(totalTeamNum)
 {
+    this->remainMalNum.fill(0,5);
+    this->outtedMalNum.fill(0,5);
     setButtonList();
 }
 
@@ -16,9 +18,10 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
  * @param teams
  */
 void YutModel::setQQueueTeams(int teams){
-    if(Teams.size()!=teams){
+    if(this->teamInfo.size()!=teams){
         for(int i=1;i<=teams;i++){ //start idx from "1"
-            this->Teams.push_back(i);
+            QQueue<int> tmpQueue;
+            this->teamInfo.insert(i, tmpQueue);
         }
     }
 }
@@ -116,13 +119,18 @@ bool YutModel::set_clickedYut(int yut){
     //show yut result list
 
     if(mYut==0 || mYut==1 || mYut==2 ||mYut==3){
-        yutResults.push_back(mYut);
+        this->teamInfo[this->currentTeamNum].push_back(mYut);
         //yut button setdisable
         //move mal -> update mal which can moved
         return true;
     }else if(mYut==4 || mYut==5){
-        yutResults.push_back(mYut);
+        this->teamInfo[this->currentTeamNum].push_back(mYut);
         //one more time
         return false;
     }
+    return true;
+}
+
+QQueue<int> YutModel::getCurrentQueue(){
+    return this->teamInfo[this->currentTeamNum];
 }

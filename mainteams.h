@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QVector>
 
 #include "yutmodel.h"
 class YutController;
@@ -16,18 +19,20 @@ public:
 signals:
     void sendtoCtrl();
 
-public slots:
+public:
+    void setButtonStyleSheetAll(QString style, int totalTeamNum, int totalMalNum, QVector<int> remainMalNum, QVector<int> outtedMalNum);
+    void setLabelStyleSheet(int teamNum, QString style);
 
 private:
-    void setTeams();
+    void setTeams(int totalTeamNum, int totalMalNum);
 
 public:
     QGridLayout* grid;
 
 private:
     QWidget *parent;
-    int totalTeamNum;
-    int totalMalNum;
+    QVector<QVector<QPushButton*> > MalButtonList;
+    QVector<QLabel*> teamLabelList;
 };
 
 #endif // MAINTEAMS_H

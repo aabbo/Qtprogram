@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     //yutPan set
     //board = new MainBoard(ymodel->buttonList,this);
     board = new MainBoard(this);
+    board->setButtonStyleSheetAll(this->ButtonStyle);
     ui->MainBoardFrame->setLayout(board->grid);
 
     // button set
@@ -25,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
 
     //team set
     teams=new MainTeams(this->ymodel->numOfTeam, this->ymodel->numOfMal, this);
+    teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam, this->ymodel->numOfMal
+                                  ,this->ymodel->remainMalNum, this->ymodel->outtedMalNum);
+    teams->setLabelStyleSheet(1, this->LabelStyle);
     ui->InfoFrame->setLayout(teams->grid);
 }
 
@@ -73,17 +77,44 @@ void MainWindow::on_BackPage_clicked()
  * false : yut result = 4,5
  */
 void MainWindow::afterClickYut(bool status){
-    int yut=ymodel->yutResults.back();
+    QQueue<int> resultQueue = this->ymodel->getCurrentQueue();
+    int yut= resultQueue.back();
     //show yut img
     setYutImg(yut);
     //show yut result list
-    setYutResult(ymodel->yutResults);
+    setYutResult(resultQueue);
 
     if(status){
         //yut button setdisable
         //move mal -> update mal which can moved
-    }else{
-        //one more time
+        this->setButtonDisable(ui->SelectButtonStack->currentIndex());
+
+        // 말판 세팅 이벤트 처리
+
+
+        this->setButtonEnable(ui->SelectButtonStack->currentIndex());
+    }
+}
+
+void MainWindow::setButtonDisable(int index){
+    if(index == 0){
+        ui->RandomButton->setDisabled(true);
+        ui->SelectButton->setDisabled(true);
+    }
+    else if(index == 1){
+        ui->SelectThrow->setDisabled(true);
+        ui->BackPage->setDisabled(true);
+    }
+}
+
+void MainWindow::setButtonEnable(int index){
+    if(index == 0){
+        ui->RandomButton->setDisabled(false);
+        ui->SelectButton->setDisabled(false);
+    }
+    else if(index == 1){
+        ui->SelectThrow->setDisabled(false);
+        ui->BackPage->setDisabled(false);
     }
 }
 

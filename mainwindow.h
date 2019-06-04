@@ -35,12 +35,8 @@ public:
 private:
     bool setYutImg(int yut);
     bool setYutResult(QQueue<int> result);
-    Ui::MainWindow *ui;
-    MainBoard* board;
-    MainTeams* teams;
-    YutController* yctrl;
-    YutModel* ymodel;
-    int yut;
+    void setButtonDisable(int index);
+    void setButtonEnable(int index);
 
 protected:
     bool eventFilter(QObject* object, QEvent* event);
@@ -55,6 +51,18 @@ private slots:
     void on_Gul_clicked();
     void on_Yut_clicked();
     void on_Mo_clicked();
+
+private:
+    Ui::MainWindow *ui;
+    MainBoard* board;
+    MainTeams* teams;
+    YutController* yctrl;
+    YutModel* ymodel;
+    int yut;
+
+    const QString ButtonStyle = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
+                                     "border-radius:25px;";
+    const QString LabelStyle = "background-color:rgba(0,0,255,50%);";
 };
 
 #endif // MAINWINDOW_H
