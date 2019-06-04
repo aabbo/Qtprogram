@@ -20,17 +20,15 @@ public:
 
     int clickedButtonNum;
 
+
+private:
+    int currentTeamNum = 1;
     // key : teamNumber
     // value : yut throw result
     QMap<int, QQueue<int>> teamInfo;
     QMap<int, QVector<int>> malLocation;
-
-//    QQueue<int> Teams;
-//    QQueue<int> yutResults; //=> QMap으로 통합
-
+    QMap<int, QVector<int>> clickableLocation;
     QVector<BoardButton*> buttonList;
-private:
-    int currentTeamNum = 1;
 
 public :
     void setValueOfMals(int val);
@@ -38,6 +36,8 @@ public :
     bool set_clickedYut(int yut);//if user click yut
 
     QQueue<int> getCurrentQueue();
+    QVector<int> getCurrentClickableLocation();
+    QVector<int> getCurrentMalLocation();
 
 private:
     void setQQueueTeams(int teams);

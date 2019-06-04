@@ -20,6 +20,7 @@ public:
     void clickedBoardBtn(int num);
     void clicked_YutRandom();
     void clicked_YutSelect(int yut);
+    void endTurn();
 
 private:
     MainWindow * mw;

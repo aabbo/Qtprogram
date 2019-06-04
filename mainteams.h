@@ -14,7 +14,7 @@ class MainTeams : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MainTeams(int teamNum, int malNum, QWidget *parent = nullptr);
+    explicit MainTeams(int teamNum, QWidget *parent = nullptr);
 
 signals:
     void sendtoCtrl();
@@ -24,7 +24,7 @@ public:
     void setLabelStyleSheet(int teamNum, QString style);
 
 private:
-    void setTeams(int totalTeamNum, int totalMalNum);
+    void setTeams(int totalTeamNum);
 
 public:
     QGridLayout* grid;

@@ -2,13 +2,13 @@
 #include <QLabel>
 #include <QDebug>
 
-MainTeams::MainTeams(int teamNum, int malNum, QWidget *parent) : QWidget(parent)
+MainTeams::MainTeams(int teamNum, QWidget *parent) : QWidget(parent)
 {
     grid=new QGridLayout();
     this->parent = parent;
-    setTeams(teamNum, malNum);
+    setTeams(teamNum);
 }
-void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
+void MainTeams::setTeams(int totalTeamNum){
 
     QLabel* label0=new QLabel();
     label0->setText("게임전");

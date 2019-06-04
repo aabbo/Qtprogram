@@ -139,3 +139,7 @@ bool YutModel::set_clickedYut(int yut){
 QQueue<int> YutModel::getCurrentQueue(){
     return this->teamInfo[this->currentTeamNum];
 }
+
+QVector<int> YutModel::getCurrentClickableLocation(){
+    return this->clickableLocation[this->currentTeamNum];
+}

@@ -18,7 +18,8 @@ void MainBoard::setBoard(){
         this->buttonList.at(i)->setMinimumSize(50,50);
         this->buttonList.at(i)->setMaximumSize(50,50);
         this->buttonList.at(i)->setText(QString::number(i));
-        btn->setObjectName(QString::number(i));
+        this->buttonList.at(i)->setObjectName(QString::number(i));
+        this->buttonList.at(i)->setDisabled(true);
         grid->addWidget(this->buttonList.at(i), row, col);
 
         this->buttonList.at(i)->installEventFilter(parent);
@@ -88,4 +89,8 @@ void MainBoard::setButtonStyleSheetAll(QString style){
     for(auto itr = this->buttonList.begin(); itr != this->buttonList.end(); ++itr){
         (*itr)->setStyleSheet(style);
     }
+}
+
+void MainBoard::setButtonStyleSheet(int num, QString style){
+    this->buttonList[num]->setStyleSheet(style);
 }

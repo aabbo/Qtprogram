@@ -38,3 +38,9 @@ void YutController::clicked_YutSelect(int yut){
     bool status=ymodel->set_clickedYut(yut);
     mw->afterClickYut(status);
 }
+
+//void YutController::(){
+//    // yut model data 업데이트
+
+//    mw->endTurn(); // MainWindow 화면 업데이트
+//}

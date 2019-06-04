@@ -39,7 +39,11 @@ private:
     bool setYutResult(QQueue<int> result);
     void setButtonDisable(int index);
     void setButtonEnable(int index);
+    void setClickableBoardButton();
 
+    void clearYutFrame();
+
+    void enableCurrentBoardButtonLocation();
 protected:
     bool eventFilter(QObject* object, QEvent* event);
 
@@ -65,7 +69,7 @@ private:
 
     const QString ButtonStyle = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
                                      "border-radius:25px;";
-    const QString LabelStyle = "image : url(:/img/highlight.png);";
+    const QString HighlightStyle = "image : url(:/img/highlight.png);";
     const QString initStyle = "";
 };
 
