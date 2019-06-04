@@ -94,3 +94,10 @@ void MainBoard::setButtonStyleSheetAll(QString style){
 void MainBoard::setButtonStyleSheet(int num, QString style){
     this->buttonList[num]->setStyleSheet(style);
 }
+
+void MainBoard::setButtonStyleSheet(int num, int teamNum, int malNum, QString style){
+    QString imageUrl = ":/img/team" + QString::number(teamNum) + "_" + QString::number(malNum) + ".png";
+    QString btnStyle = "image:url(" + imageUrl + ");" + style;
+    this->buttonList[num]->setText("");
+    this->buttonList[num]->setStyleSheet(btnStyle);
+}

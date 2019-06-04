@@ -15,29 +15,39 @@ public:
     const int numOfMal;
     const int numOfTeam;
 
-    QVector<int> remainMalNum;
-    QVector<int> outtedMalNum;
-
     int clickedButtonNum;
-
-
 private:
     int currentTeamNum = 1;
-    // key : teamNumber
-    // value : yut throw result
-    QMap<int, QQueue<int>> teamInfo;
+    QVector<int> remainMalNum;
+    QVector<int> outtedMalNum;
+    QMap<int, QQueue<int>> teamYutInfo;
     QMap<int, QVector<int>> malLocation;
-    QMap<int, QVector<int>> clickableLocation;
+    QVector<int> clickableLocation;
     QVector<BoardButton*> buttonList;
+
 
 public :
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
     bool set_clickedYut(int yut);//if user click yut
+    bool setBoardButton();
 
     QQueue<int> getCurrentQueue();
+    QVector<int> getAllRemainMalNum();
+    QVector<int> getAllOuttedMalNum();
+    int getCurrentTeamRemainMalNum();
+    int getCurrentTeamOuttedMalNum();
+    int getCurrentTeamNum();
+    int getCurrentButtonMalNum();
     QVector<int> getCurrentClickableLocation();
     QVector<int> getCurrentMalLocation();
+
+    bool calcFromStartButton();
+    void calcFromBoardButton();
+
+    bool isQueueEmpty();
+
+    void endTurn();
 
 private:
     void setQQueueTeams(int teams);

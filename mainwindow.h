@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public slots:
-   void clickedBeforeMal();
+   void MalClicked();
 
 public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
@@ -34,16 +34,24 @@ public:
     void afterClickYut(bool status);
     void endTurn();
 
+    void enableCurrentBoardButtonLocation();
+    void setEnableMalButton();
+
+    void setButtonDisable(int index);
+    void setButtonEnable(int index);
+    void setMainBoardUpdate(int clickedBtnNum, int teamNum, int malNum);
+
+    void malHighlightCanclation();
+
+    int getStackedWidgetIndex();
+
 private:
     bool setYutImg(int yut);
     bool setYutResult(QQueue<int> result);
-    void setButtonDisable(int index);
-    void setButtonEnable(int index);
-    void setClickableBoardButton();
 
     void clearYutFrame();
 
-    void enableCurrentBoardButtonLocation();
+
 protected:
     bool eventFilter(QObject* object, QEvent* event);
 
@@ -59,6 +67,7 @@ private slots:
     void on_Yut_clicked();
     void on_Mo_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     MainBoard* board;
@@ -69,6 +78,8 @@ private:
 
     const QString ButtonStyle = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
                                      "border-radius:25px;";
+    const QString ButtonBorderHighlight = "border-color:rgb(0,0,0); border-width:3.5px; border-style:solid;"
+                                          "border-radius:25px;";
     const QString HighlightStyle = "image : url(:/img/highlight.png);";
     const QString initStyle = "";
 };

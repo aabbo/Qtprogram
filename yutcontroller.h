@@ -7,6 +7,7 @@
 #include "resultdialog.h"
 #include "setupdialog.h"
 #include "yutmodel.h"
+#include "boardsetthread.h"
 
 class YutController : public QObject
 {
@@ -14,12 +15,22 @@ class YutController : public QObject
 public:
     explicit YutController(QObject *parent = nullptr);
     bool gamestart;
+signals:
+    void updateQueue(bool isEmpty);
+    void malClicked();
+    void boardButtonClicked();
+    void threadInit();
+
+public slots:
+    void malSetEnd();
+    void updateEnableMal();
 
 public:
     //mainwindow view
     void clickedBoardBtn(int num);
-    void clicked_YutRandom();
-    void clicked_YutSelect(int yut);
+    void clickedYut(int yut = -1);
+    void clickedRemainedMal();
+    void setStart();
     void endTurn();
 
 private:
@@ -27,6 +38,9 @@ private:
     SetupDialog * sd;
     ResultDialog * rd;
     YutModel* ymodel;
+    BoardSetThread* thread;
+
+    bool boardSet = false;
 };
 
 #endif // YUTCONTROLLER_H

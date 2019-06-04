@@ -33,7 +33,8 @@ SOURCES += \
     resultdialog.cpp \
     setupdialog.cpp \
     yutcontroller.cpp \
-    yutmodel.cpp
+    yutmodel.cpp \
+    boardsetthread.cpp
 
 HEADERS += \
     mainteams.h \
@@ -43,7 +44,8 @@ HEADERS += \
     resultdialog.h \
     setupdialog.h \
     yutcontroller.h \
-    yutmodel.h
+    yutmodel.h \
+    boardsetthread.h
 
 FORMS += \
         mainwindow.ui \

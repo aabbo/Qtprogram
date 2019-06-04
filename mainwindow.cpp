@@ -6,7 +6,6 @@
  * @brief MainWindow::MainWindow
  * @param parent
  */
-
 MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -25,9 +24,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     this->ui->SelectButtonStack->setCurrentIndex(0);
 
     //team set
-    teams=new MainTeams(this->ymodel->numOfTeam, this);
-    teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam, this->ymodel->numOfMal
-                                  ,this->ymodel->remainMalNum, this->ymodel->outtedMalNum);
+    teams=new MainTeams(this->ymodel->numOfTeam, this->ymodel->numOfMal, this);
+    this->malHighlightCanclation();
     teams->setLabelStyleSheet(1, this->HighlightStyle);
     ui->InfoFrame->setLayout(teams->grid);
 }
@@ -48,7 +46,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event){
 void MainWindow::on_RandomButton_clicked()
 {
     qDebug()<<"test==random btn clicked";
-    this->yctrl->clicked_YutRandom();
+    this->yctrl->clickedYut();
 }
 
 void MainWindow::on_SelectButton_clicked()
@@ -59,7 +57,7 @@ void MainWindow::on_SelectButton_clicked()
 
 void MainWindow::on_SelectThrow_clicked()
 {
-    this->yctrl->clicked_YutSelect(this->yut);
+    this->yctrl->clickedYut(this->yut);
 }
 
 void MainWindow::on_BackPage_clicked()
@@ -83,40 +81,48 @@ void MainWindow::afterClickYut(bool status){
     setYutResult(resultQueue);
 
     if(status){
-        //yut button setdisable
-        //move mal -> update mal which can moved
         this->setButtonDisable(ui->SelectButtonStack->currentIndex());
-
-        // 사용자가 움직일 수 있는 말 click 가능하게 하기
-        this->enableCurrentBoardButtonLocation();
-        // 사용자가 움직일 말 선택
-
-        // 사용자가 말을 옮길 수 있는 버튼 활성화
-
-        this->setButtonEnable(ui->SelectButtonStack->currentIndex());
+        this->yctrl->setStart();
     }
+}
+
+int MainWindow::getStackedWidgetIndex(){
+    return this->ui->SelectButtonStack->currentIndex();
 }
 
 void MainWindow::enableCurrentBoardButtonLocation(){
-    QVector<int> malLocation = this->ymodel->getCurrentMalLocation();
-    for(auto itr = malLocation.begin(); itr != malLocation.end(); ++itr){
-        //this->board->setButtonStyleSheet()
-        this->board->buttonList[*itr]->setDisabled(false);
+    // 이동 가능한 BoardButton을 하이라이팅
+    // 해당 버튼 클릭기능 활성화
+    QVector<int> location = this->ymodel->getCurrentClickableLocation();
+    if(location.size() > 0){
+        for(int i=0; i<location.size(); i++){
+            this->board->buttonList[location[i]]->setDisabled(false);
+            this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
+        }
     }
 }
 
-void MainWindow::setClickableBoardButton(){
-    // 사용자가 선택 가능한 BoardButton을 하이라이팅 하고
-    // 해당 버튼을 클릭 가능하게 만듦
-    QVector<int> locationList = this->ymodel->getCurrentClickableLocation();
-    for(auto itr = locationList.begin(); itr != locationList.end(); ++itr){
-        this->board->setButtonStyleSheet(*itr, this->HighlightStyle);
-        this->board->buttonList[*itr]->setDisabled(false);
+void MainWindow::setEnableMalButton(){
+    // 말 버튼 활성화 및 하이라이팅
+    if(this->ymodel->getCurrentTeamRemainMalNum()){
+        this->teams->setButtonEnable(this->ymodel->getCurrentTeamNum(),
+                                     this->ymodel->getCurrentTeamRemainMalNum());
+        this->teams->setButtonStyle(this->ButtonBorderHighlight, this->ymodel->getCurrentTeamNum(),
+                                    this->ymodel->getCurrentTeamRemainMalNum());
+    }
+    QVector<int> tmp = this->ymodel->getCurrentMalLocation();
+    if(tmp.size() > 0){
+        for(int i=0; i<tmp.size(); i++){
+            this->board->buttonList[tmp[i]]->setDisabled(false);
+        }
     }
 }
 
 void MainWindow::endTurn(){
+    this->malHighlightCanclation();
+    this->setButtonEnable(ui->SelectButtonStack->currentIndex());
     this->clearYutFrame();
+    this->teams->setLabelStyleSheet(this->ymodel->getCurrentTeamNum(), this->HighlightStyle);
 }
 
 void MainWindow::clearYutFrame(){
@@ -144,6 +150,10 @@ void MainWindow::setButtonEnable(int index){
         ui->SelectThrow->setDisabled(false);
         ui->BackPage->setDisabled(false);
     }
+}
+
+void MainWindow::setMainBoardUpdate(int clickedBtnNum, int teamNum, int malNum){
+    this->board->setButtonStyleSheet(clickedBtnNum, teamNum, malNum, this->ButtonStyle);
 }
 
 /**
@@ -191,9 +201,13 @@ bool MainWindow::setYutResult(QQueue<int> result){
     return status;
 }
 
-void MainWindow::clickedBeforeMal(){
+void MainWindow::MalClicked(){
     qDebug()<<"test==clicked!!";
-    //connect(this,SIGNAL(sendtoCtrl()),this->yctrl,SLOT());
+    this->yctrl->clickedRemainedMal();
+}
+
+void MainWindow::malHighlightCanclation(){
+    this->teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam, this->ymodel->getAllRemainMalNum());
 }
 
 void MainWindow::on_BackDo_clicked()

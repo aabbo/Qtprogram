@@ -16,6 +16,7 @@ public:
     MainBoard( QWidget* parent = nullptr);
     void setBoard();
     void setButtonStyleSheet(int num, QString style);
+    void setButtonStyleSheet(int num, int teamNum, int malNum, QString style);
     void setButtonStyleSheetAll(QString style);
 
 public:
