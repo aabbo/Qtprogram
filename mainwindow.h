@@ -31,10 +31,13 @@ public:
     explicit MainWindow(QWidget *parent = nullptr,YutModel* ymodel=nullptr,YutController* ctrl=nullptr);
     ~MainWindow();
     void afterClickYut(bool status);
+    void clearYutResult();
 
 private:
-    bool setYutImg(int yut);
+    bool setYutImg(int yut = -2);
     bool setYutResult(QQueue<int> result);
+    void disableButton(int index);
+    void enableButton(int index);
     Ui::MainWindow *ui;
     MainBoard* board;
     MainTeams* teams;

@@ -1,5 +1,4 @@
 #include "mainteams.h"
-#include <QLabel>
 #include <QDebug>
 
 MainTeams::MainTeams(YutModel* model, YutController* ctrl,QWidget *parent) : QWidget(parent)
@@ -34,14 +33,21 @@ void MainTeams::setTeams(){
     for(int i=1;i<=this->ymodel->numOfTeam;i++){
         //team name
         QLabel* teamName=new QLabel();
+        teamName->setObjectName(QString::number(i));
         teamName->setText("team"+QString::number(i));
         teamName->setMaximumSize(50,50);
         teamName->setMinimumSize(50,50);
+        teamName->setAutoFillBackground(true);
+        this->labelInfo.push_back(teamName);
+        if(i == 1){
+            setCurrentTeam(i);
+        }
         grid->addWidget(teamName,i,0);
 
         int arr[3]={ymodel->numOfMal,0,0};
         for(int j=0;j<3;j++){
             QPushButton* btn=new QPushButton();
+            btn->setDisabled(true);
             if(j==0){
                 btn->setObjectName("beforeGame");
             }
@@ -59,5 +65,10 @@ void MainTeams::setTeams(){
             }
         }
     }
+}
+
+void MainTeams::setCurrentTeam(int num){
+    QString style = "QLabel{background-color:rgba(0,0,255,50%);}";
+    this->labelInfo.at(num-1)->setStyleSheet(style);
 }
 

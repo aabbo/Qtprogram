@@ -2,13 +2,13 @@
 #include "yutcontroller.h"
 #include <QDebug>
 
-SetupDialog::SetupDialog(QWidget *parent,YutController* ctrl) :
+SetupDialog::SetupDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SetupDialog)
 {
-    this->yctrl=ctrl;
-    connect(this,SIGNAL(setValueOfMals(int)),this->yctrl,SLOT(setValueOfMals(int)));
-    connect(this,SIGNAL(setValueOfTeams(int)),this->yctrl,SLOT(setValueOfTeams(int)));
+//    this->yctrl=ctrl;
+//    connect(this,SIGNAL(setValueOfMals(int)),this->yctrl,SLOT(setValueOfMals(int)));
+//    connect(this,SIGNAL(setValueOfTeams(int)),this->yctrl,SLOT(setValueOfTeams(int)));
 
     ui->setupUi(this);
     startbool = true;
@@ -40,13 +40,13 @@ bool SetupDialog::GetStartBool(){
 void SetupDialog::on_player_slider_valueChanged(int value)
 {
     ui->player_num_label->setNum(value);
-    emit setValueOfTeams(value);
+    this->numOfTeam = value;
 }
 
 void SetupDialog::on_mal_slider_valueChanged(int value)
 {
     ui->mal_num_label->setNum(value);
-    emit setValueOfMals(value);
+    this->numOfMal = value;
 }
 
 void SetupDialog::on_start_button_clicked()

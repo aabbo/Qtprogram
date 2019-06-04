@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QLabel>
 
 #include "yutmodel.h"
 class YutController;
@@ -23,6 +24,9 @@ private:
 
 public:
     QGridLayout* grid;
+    QVector<QLabel*> labelInfo;
+
+    void setCurrentTeam(int num);
 
 private:
     QWidget* parent;

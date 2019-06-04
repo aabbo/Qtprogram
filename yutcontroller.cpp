@@ -3,14 +3,14 @@
 
 YutController::YutController(QObject *parent) : QObject(parent)
 {
-    //Model
-    ymodel = new YutModel();
-
     //View
     //setup dialog
-    sd = new SetupDialog(nullptr,this);
+    sd = new SetupDialog();
     sd->exec();
     gamestart = sd->GetStartBool();
+
+    //Model
+    ymodel = new YutModel(sd->numOfTeam, sd->numOfMal);
 
     //mainwindow
     mw = new MainWindow(nullptr,ymodel,this);
@@ -22,18 +22,10 @@ YutController::YutController(QObject *parent) : QObject(parent)
     //result dialog
 }
 
-void YutController::setValueOfMals(int val){
-    qDebug()<<"test==contrl=mal="<<val;
-    ymodel->setValueOfMals(val);
-}
-
-void YutController::setValueOfTeams(int val){
-    qDebug()<<"test==contrl=team="<<val;
-    ymodel->setValueOfTeams(val);
-}
-
 void YutController::clickedBoardBtn(QPushButton* btn){
     qDebug() << "test==ctrl=="<<btn->objectName();
+    int index = btn->objectName().toInt();
+    this->ymodel->updateBoardBtnInfo(index);
 }
 
 void YutController::clicked_YutRandom(){
@@ -46,4 +38,22 @@ void YutController::clicked_YutSelect(int yut){
     qDebug() << "test==clicked_Yutselect()=="<<yut;
     bool status=ymodel->set_clickedYut(yut);
     mw->afterClickYut(status);
+}
+/**
+ * @brief YutController::setMal
+ * 1. 클릭 가능한 Button을 업데이트
+ * 2. 사용자가 클릭한 Button으로 말을 이동
+ * 3. Queue가 비었으면 종료
+ */
+void YutController::setMal(){
+    while(!this->ymodel->isQueueEmpty()){
+        int yut = this->ymodel->getYut();
+        this->ymodel->setButtonEnable(yut);
+
+    }
+}
+
+void YutController::endTurn(){
+    this->ymodel->updateCurrentTeamInfo();
+    mw->clearYutResult();
 }

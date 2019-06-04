@@ -17,14 +17,14 @@ public:
 
 public slots:
     //setupdialog view
-    void setValueOfMals(int val);
-    void setValueOfTeams(int val);
 
 public:
     //mainwindow view
     void clickedBoardBtn(QPushButton* btn);
     void clicked_YutRandom();
     void clicked_YutSelect(int yut);
+    void setMal();
+    void endTurn();
 
 private:
     MainWindow * mw;

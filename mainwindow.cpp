@@ -34,23 +34,40 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+ * @brief MainWindow::clicked
+ * @param btn
+ * 윷판 위의 버튼 클릭시 이벤트
+ */
 void MainWindow::clicked(QPushButton *btn){
     qDebug() <<"test==" <<btn->objectName();
     this->yctrl->clickedBoardBtn(btn);
 }
 
+/**
+ * @brief MainWindow::on_RandomButton_clicked
+ * 랜덤 윷 던지기
+ */
 void MainWindow::on_RandomButton_clicked()
 {
     qDebug()<<"test==random btn clicked";
     this->yctrl->clicked_YutRandom();
 }
 
+/**
+ * @brief MainWindow::on_SelectButton_clicked
+ * 윷던지기 버튼 화면 전환
+ */
 void MainWindow::on_SelectButton_clicked()
 {   //012345
     qDebug()<<"test==select btn clicked";
     this->ui->SelectButtonStack->setCurrentIndex(1);
 }
 
+/**
+ * @brief MainWindow::on_SelectThrow_clicked
+ * 선택한 윷을 던진것으로 설정. Queue에 저장
+ */
 void MainWindow::on_SelectThrow_clicked()
 {
     this->yctrl->clicked_YutSelect(this->yut);
@@ -69,18 +86,53 @@ void MainWindow::on_BackPage_clicked()
  * false : yut result = 4,5
  */
 void MainWindow::afterClickYut(bool status){
-    int yut=ymodel->yutResults.back();
+    int yut=ymodel->getLastYutInfo();
     //show yut img
     setYutImg(yut);
     //show yut result list
-    setYutResult(ymodel->yutResults);
+    setYutResult(ymodel->getCurrentYutQueue());
 
     if(status){
         //yut button setdisable
         //move mal -> update mal which can moved
-    }else{
-        //one more time
+        // yut model currentTeam update
+        this->disableButton(this->ui->SelectButtonStack->currentIndex());
+
+        // 말 놓기 이벤트 수행
+        this->yctrl->setMal();
+
+        this->yctrl->endTurn();
+        this->enableButton(this->ui->SelectButtonStack->currentIndex());
     }
+}
+
+void MainWindow::disableButton(int index){
+    if(index == 0){
+        ui->RandomButton->setDisabled(true);
+        ui->SelectButton->setDisabled(true);
+    }
+    else if(index == 1){
+        ui->SelectThrow->setDisabled(true);
+        ui->BackPage->setDisabled(true);
+    }
+    this->update();
+}
+
+void MainWindow::enableButton(int index){
+    if(index == 0){
+        ui->RandomButton->setEnabled(true);
+        ui->SelectButton->setEnabled(true);
+    }
+    else if(index == 1){
+        ui->SelectThrow->setEnabled(true);
+        ui->BackPage->setEnabled(true);
+    }
+    this->update();
+}
+
+void MainWindow::clearYutResult(){
+    this->setYutImg();
+    this->setYutResult(ymodel->getCurrentYutQueue());
 }
 
 /**
@@ -91,7 +143,10 @@ void MainWindow::afterClickYut(bool status){
 
 bool MainWindow::setYutImg(int yut){
     bool status=true;
-
+    if(yut == -2){
+        this->ui->YutImage->clear();
+        return status;
+    }
     QString filepath=":/img/yut_"+QString::number(yut)+".png";
     QPixmap  mypix = QPixmap(filepath);
     int size=ui->YutImage->width();

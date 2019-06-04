@@ -10,7 +10,7 @@ MainBoard::MainBoard(YutModel* model, YutController* ctrl,QWidget *parent) : QWi
     this->parent=parent;
     grid = new QGridLayout();
     //this->buttonList=btnList;
-    this->buttonList=this->ymodel->buttonList;
+    this->buttonList = this->ymodel->getButtonList();
     setBoard();
 
 }

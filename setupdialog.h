@@ -15,7 +15,7 @@ class SetupDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SetupDialog(QWidget *parent = nullptr, YutController* ctrl=nullptr);
+    explicit SetupDialog(QWidget *parent = nullptr);
     bool GetStartBool();
     ~SetupDialog();
 
@@ -32,10 +32,15 @@ signals:
     void setValueOfTeams(int value);
     void setValueOfMals(int value);
 
+public:
+    int numOfTeam =0;
+    int numOfMal = 0;
+
 private:
     YutController* yctrl;
     Ui::SetupDialog *ui;
     bool startbool;
+
 };
 
 #endif // SETUPDIALOG_H

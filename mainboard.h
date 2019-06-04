@@ -4,12 +4,11 @@
 #include "boardbutton.h"
 #include "yutmodel.h"
 #include <QtWidgets>
-#include <vector>
+#include <QVector>
 #include <QGridLayout>
 
 class YutController;
 
-using namespace std;
 
 class MainBoard : public QWidget
 {
@@ -22,7 +21,7 @@ public:
 
 public:
     QGridLayout* grid;
-    vector<BoardButton*> buttonList;
+    QVector<BoardButton*> buttonList;
     // 26 : 28, 24 방향으로만 가능(0,0)
     // 25 : 28, 27 방향으로만 가능(0,1)
     int recentButton;

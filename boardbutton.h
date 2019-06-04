@@ -3,9 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
-#include <vector>
-
-using namespace std;
+#include <QVector>
 
 class BoardButton : public QPushButton
 {
@@ -20,8 +18,8 @@ public slots:
 public:
     // 현재 위치 말 정보
     int num;
-    vector<QPushButton*> nextStep;
-    vector<QPushButton*> prevStep;
+    QVector<BoardButton*> nextStep;
+    QVector<BoardButton*> prevStep;
     int mals; //num of mal
     int team; //whoes mal is in here
 };

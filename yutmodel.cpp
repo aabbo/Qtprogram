@@ -1,10 +1,11 @@
 #include "yutmodel.h"
 #include <QDebug>
 
-YutModel::YutModel()
+YutModel::YutModel(int numOfTeam, int numOfMal) : numOfMal(numOfMal), numOfTeam(numOfTeam)
 {
     numOfMal=2;
     numOfTeam=2;
+    this->currentTeam = 1;
     setButtonList();
 }
 
@@ -13,43 +14,51 @@ YutModel::YutModel()
 // before game start, setup
 //
 //================================================================
-/**
- * @brief YutModel::setValueOfMals
- * @param val
- */
-void YutModel:: setValueOfMals(int val){
-     qDebug()<<"model mal="<<val;
-     this->numOfMal=val;
-}
+///**
+// * @brief YutModel::setValueOfMals
+// * @param val
+// * 전체 말 개수 설정
+// */
+//void YutModel:: setValueOfMals(int val){
+//     qDebug()<<"model mal="<<val;
+//     this->numOfMal=val;
+//}
 
-/**
- * @brief YutModel::setValueOfTeams
- * @param val
- */
-void YutModel:: setValueOfTeams(int val){
-     qDebug()<<"model team="<<val;
-     this->numOfTeam=val;
-}
+///**
+// * @brief YutModel::setValueOfTeams
+// * @param val
+// * 전체 팀 수 설정
+// */
+//void YutModel:: setValueOfTeams(int val){
+//     qDebug()<<"model team="<<val;
+//     this->numOfTeam=val;
+//}
 
 /** set teams queue
  * @brief YutModel::setQQueueTeams
  * @param teams
+ * 팀별
  */
 void YutModel::setQQueueTeams(int teams){
-    if(Teams.size()!=teams){
+    if(this->teams.size()!=teams){
         for(int i=1;i<=teams;i++){ //start idx from "1"
-            this->Teams.push_back(i);
+            QQueue<int> tmpQueue;
+            QVector<int> tmpVector;
+            this->teams.insert(i, tmpQueue);
+            this->teamMalLocation.insert(i, tmpVector);
         }
     }
 }
 
 /**
  * @brief YutModel::setButtonList
+ * 윷 정보 초기화
  */
 void YutModel::setButtonList(){
     for(int i=0;i<29;i++){
         BoardButton* btn=new BoardButton();
         btn->setObjectName(QString::number(i));
+        btn->setDisabled(true);
         this->buttonList.push_back(btn);
     }
     BoardButton* btn = new BoardButton();
@@ -138,13 +147,68 @@ bool YutModel::set_clickedYut(int yut){
     //show yut result list
 
     if(mYut==0 || mYut==1 || mYut==2 ||mYut==3){
-        yutResults.push_back(mYut);
+        this->teams[this->currentTeam].push_back(yut);
+        //yutResults.push_back(mYut);
         //yut button setdisable
         //move mal -> update mal which can moved
         return true;
     }else if(mYut==4 || mYut==5){
-        yutResults.push_back(mYut);
+        this->teams[this->currentTeam].push_back(yut);
+        //yutResults.push_back(mYut);
         //one more time
         return false;
     }
+    return true;
+}
+
+bool YutModel::isQueueEmpty(){
+    return this->teams[this->currentTeam].empty();
+}
+
+int YutModel::getYut(){
+    return this->teams[this->currentTeam].dequeue();
+}
+
+void YutModel::setButtonEnable(int num){
+    if(this->teamMalLocation[this->currentTeam].empty()){
+        BoardButton* btn = this->buttonList.at(1);
+        for(int i=1; i<num; i++){
+            btn = btn->nextStep.at(0);
+        }
+        btn->setDisabled(false);
+        //btn->setEnabled(true);
+        btn->setStyleSheet("background-color:red;");
+        qDebug() << btn->objectName();
+    }
+    else{
+        for(auto itr = this->teamMalLocation[this->currentTeam].begin(); itr !=
+            this->teamMalLocation[this->currentTeam].end(); ++itr){
+
+        }
+    }
+}
+
+QQueue<int> YutModel::getCurrentYutQueue(){
+    return this->teams[this->currentTeam];
+}
+
+int YutModel::getLastYutInfo(){
+    return this->teams[this->currentTeam].back();
+}
+
+QVector<BoardButton*> YutModel::getButtonList(){
+    return this->buttonList;
+}
+
+void YutModel::updateCurrentTeamInfo(){
+    this->currentTeam++;
+    if(this->currentTeam > this->numOfTeam){
+        this->currentTeam = 1;
+    }
+}
+
+void YutModel::updateBoardBtnInfo(int index){
+    BoardButton* btn = this->buttonList.at(index);
+    btn->team = this->currentTeam;
+    btn->mals++;
 }
