@@ -49,14 +49,19 @@ void YutModel::setButtonList(){
         BoardButton* tmpBtn = this->buttonList[i];
         if(i < 19){
             if(i == 0){
+                tmpBtn->nextStep.push_back(this->buttonList[1]);
                 tmpBtn->nextStep.push_back(this->buttonList[29]);
                 tmpBtn->prevStep.push_back(this->buttonList[19]);
             }
             else if(i==5){
+                tmpBtn->nextStep.push_back(this->buttonList[6]);
+                tmpBtn->prevStep.push_back(this->buttonList[4]);
                 tmpBtn->nextStep.push_back(this->buttonList[21]);
                 tmpBtn->prevStep.push_back(this->buttonList[4]);
             }
             else if(i==10){
+                tmpBtn->nextStep.push_back(this->buttonList[11]);
+                tmpBtn->prevStep.push_back(this->buttonList[9]);
                 tmpBtn->nextStep.push_back(this->buttonList[22]);
                 tmpBtn->prevStep.push_back(this->buttonList[9]);
             }else {
@@ -178,6 +183,7 @@ int YutModel::getCurrentTeamNum(){
 }
 
 bool YutModel::calcFromStartButton(){
+    // 새로운 말을 선택했을 경우
     int yutNum = this->teamYutInfo[this->currentTeamNum].dequeue();
     BoardButton* btn = this->buttonList[1];
     if(yutNum == 0){
@@ -198,10 +204,47 @@ bool YutModel::calcFromStartButton(){
 }
 
 void YutModel::calcFromBoardButton(){
-
+    // 보드 위에 올라와있는 말을 선택했을 경우
+    int yutNum = this->teamYutInfo[this->currentTeamNum].dequeue();
+    BoardButton* btn = this->buttonList[this->clickedButtonNum];
+    switch(this->clickedButtonNum){
+    case 5:
+    case 10:
+    case 28:
+        for(int i=0; i<yutNum; i++){
+            btn = btn->nextStep[0];
+        }
+        this->clickableLocation.push_back(btn->num);
+        btn = this->buttonList[this->clickedButtonNum];
+        for(int i=0; i<yutNum; i++){
+            if(i == 0)
+                btn = btn->nextStep[1];
+            else
+                btn = btn->nextStep[0];
+        }
+        if(btn->mals){
+            this->isMalExist.push_back(true);
+        }
+        else{
+            this->isMalExist.push_back(false);
+        }
+        break;
+    default:
+        for(int i=0; i<yutNum; i++){
+            btn = btn->nextStep[0];
+        }
+        this->clickableLocation.push_back(btn->num);
+        if(btn->mals){
+            this->isMalExist.push_back(true);
+        }
+        else{
+            this->isMalExist.push_back(false);
+        }
+        break;
+    }
 }
 
-bool YutModel::setBoardButton(){
+bool YutModel::updateBoardButton(){
     // false : 말 잡기x
     // true : 말 잡기 ㅇ
     BoardButton* btn = this->buttonList[this->clickedButtonNum];

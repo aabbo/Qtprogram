@@ -29,18 +29,29 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
 void YutController::clickedBoardBtn(int num){
     qDebug() << "test==ctrl=="<< QString::number(num);
+    // board button을 클릭하는 경우는 2가지
+    // 1. 출발할 말 선택
+    // 2. 선택한 말을 놓을 때
     this->ymodel->clickedButtonNum = num;
-    bool status = this->ymodel->setBoardButton();
-    if(status){
-        // 말 잡음
+    if(boardSet){
+        this->ymodel->calcFromBoardButton();
+        this->boardSet = false;
+        mw->enableCurrentBoardButtonLocation();
+        emit malClicked();
     }
     else{
-        // 말 잡기 x
-        mw->setMainBoardUpdate(num, this->ymodel->getCurrentTeamNum(),
-                               this->ymodel->getCurrentButtonMalNum());
+        bool status = this->ymodel->updateBoardButton();
+        if(status){
+            // 말 잡음
+        }
+        else{
+            // 말 잡기 x
+            mw->setMainBoardUpdate(num, this->ymodel->getCurrentTeamNum(),
+                                   this->ymodel->getCurrentButtonMalNum());
 
-        emit boardButtonClicked();
-        emit updateQueue(this->ymodel->isQueueEmpty());
+            emit boardButtonClicked();
+            emit updateQueue(this->ymodel->isQueueEmpty());
+        }
     }
 }
 
@@ -67,6 +78,7 @@ void YutController::clickedRemainedMal(){
 
         }
     }
+    this->boardSet = false;
     mw->malHighlightCanclation();
 }
 

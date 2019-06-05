@@ -31,7 +31,7 @@ public :
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
     bool set_clickedYut(int yut);//if user click yut
-    bool setBoardButton();
+    bool updateBoardButton();
 
     QQueue<int> getCurrentQueue();
     QVector<int> getAllRemainMalNum();
