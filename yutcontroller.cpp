@@ -27,35 +27,57 @@ YutController::YutController(QObject *parent) : QObject(parent)
     connect(this, SIGNAL(threadInit()), thread, SLOT(init()));
 }
 void YutController::clickedBoardBtn(int num){
-    qDebug() << "test==ctrl=="<< QString::number(num);
     // board button을 클릭하는 경우는 2가지
     // 1. 출발할 말 선택
     // 2. 선택한 말을 놓을 때
-    qDebug() << "mal Num" <<this->ymodel->clickedButtonNum;
-    qDebug() << "boardSet" << this->boardSet;
-    qDebug() << "onBoard" <<this->ymodel->onBoard;
     this->ymodel->clickedButtonNum = num;
     if(boardSet){
         this->ymodel->firstClickedButtonNum = num;
-        this->ymodel->calcFromBoardButton();
         this->boardSet = false;
         this->ymodel->onBoard=true;
+        this->ymodel->calcFromBoardButton();
+
+        if(this->ymodel->isOutted){
+            this->ymodel->outtedMalNum[this->ymodel->getCurrentTeamNum()-1]++;
+            this->ymodel->updateBoardButton();
+            mw->setMainBoardUpdate();
+            this->ymodel->isOutted = false;
+            emit malClicked();
+            emit boardButtonClicked();
+            emit updateQueue(this->ymodel->isQueueEmpty());
+            return;
+        }
+        this->ymodel->setButtonDisableAll();
         mw->enableCurrentBoardButtonLocation();
+//        this->ymodel->clearClickableLoc();
         emit malClicked();
     }
     else{
         bool status = this->ymodel->updateBoardButton();
-        if(status){
+        if(status && !this->ymodel->isWrongClicked){
             // 말 잡음
         }
-        else{
+        else if(!this->ymodel->isWrongClicked && !status){
             // 말 잡기 x
             mw->setMainBoardUpdate();
 
             emit boardButtonClicked();
             emit updateQueue(this->ymodel->isQueueEmpty());
+            return;
+        }
+        else if(this->ymodel->isWrongClicked){
+            if(this->ymodel->onBoard){
+                this->boardSet = true;
+                this->clickedBoardBtn(num);
+            }
+            else{
+                this->clickedRemainedMal();
+            }
+            this->ymodel->isWrongClicked = false;
+            return;
         }
     }
+
 }
 
 void YutController::clickedRemainedMal(){
@@ -65,6 +87,7 @@ void YutController::clickedRemainedMal(){
     if(status){
         // 이동 가능
         // 이동 가능한 위치 하이라이팅
+        this->ymodel->setButtonDisableAll();
         mw->enableCurrentBoardButtonLocation();
         emit malClicked();
     }
@@ -87,7 +110,6 @@ void YutController::clickedRemainedMal(){
 }
 
 void YutController::clickedYut(int yut){
-    qDebug() << "Yut Clicked";
     bool status = this->ymodel->set_clickedYut(yut);
     mw->afterClickYut(status);
 }
@@ -106,5 +128,4 @@ void YutController::malSetEnd(){
 
 void YutController::updateEnableMal(){
     mw->setEnableMalButton();
-    qDebug() << "enable mal called";
 }

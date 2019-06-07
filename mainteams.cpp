@@ -4,29 +4,23 @@
 
 MainTeams::MainTeams(int teamNum, int malNum, QWidget *parent) : QWidget(parent)
 {
-    grid=new QGridLayout();
+    mal=new QGridLayout();
+    result = new QGridLayout();
     this->parent = parent;
     setTeams(teamNum, malNum);
 }
 void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
 
-//    QLabel* label0=new QLabel();
-//    label0->setText("게임전");
-//    label0->setMaximumSize(50,80);
-//    label0->setMinimumSize(50,80);
-//    grid->addWidget(label0,0,1);
+    QLabel* label0=new QLabel();
+    label0->setText("나간 말");
+    label0->setMaximumSize(50,50);
+    label0->setMinimumSize(50,50);
+    result->addWidget(label0,0,0);
 
-//    QLabel* label1=new QLabel();
-//    label1->setText("게임중");
-//    label1->setMaximumSize(50,80);
-//    label1->setMinimumSize(50,80);
-//    grid->addWidget(label1,0,2);
-
-//    QLabel* label2=new QLabel();
-//    label2->setText("탈출");
-//    label2->setMaximumSize(50,80);
-//    label2->setMinimumSize(50,80);
-//    grid->addWidget(label2,0,3);
+    QLabel* tmpLabel = new QLabel();
+    tmpLabel->setMaximumSize(50,50);
+    tmpLabel->setMinimumSize(50,50);
+    mal->addWidget(tmpLabel,0,0);
 
     for(int i=1;i<=totalTeamNum;i++){
         //team name
@@ -36,7 +30,13 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
         teamName->setMaximumSize(50,50);
         teamName->setMinimumSize(50,50);
         this->teamLabelList.push_back(teamName);
-        grid->addWidget(teamName,i,0);
+        mal->addWidget(teamName,i,0);
+
+        QLabel* outtedMal = new QLabel();
+        outtedMal->setMaximumSize(50,50);
+        outtedMal->setMinimumSize(50,50);
+        this->resutlLabelList.push_back(outtedMal);
+        result->addWidget(outtedMal,i,0);
 
         QVector<QPushButton*> tmpVec;
         for(int j=0;j<totalMalNum;j++){
@@ -47,7 +47,7 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
             btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             btn->setMinimumSize(50,50);
             btn->setMaximumSize(50,50);
-            grid->addWidget(btn,i,j+1);
+            mal->addWidget(btn,i,j+1);
             connect(btn, SIGNAL(clicked()), parent, SLOT(MalClicked()));
         }
         this->MalButtonList.push_back(tmpVec);
@@ -55,7 +55,7 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
     }
 }
 
-void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<int> remainMalNum){
+void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<int> remainMalNum, QVector<int> outtedMalNum){
     int totalMalNum = this->MalButtonList[0].size();
     for(int i=1; i<=totalTeamNum; i++){
         for(int j=0; j<totalMalNum; j++){
@@ -67,7 +67,12 @@ void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<
             QString styleBtn = "image:url(" + imageUrl + ");" + style;
             this->MalButtonList.at(i-1).at(j)->setStyleSheet(styleBtn);
         }
+        QString imageUrl = ":/img/team" + QString::number(i) + "_" + QString::number(outtedMalNum[i-1])+".png";
+        QString styleBtn = "image:url(" + imageUrl + ");" + style;
+        this->resutlLabelList.at(i-1)->setStyleSheet(styleBtn);
     }
+
+
 }
 
 void MainTeams::setButtonStyle(QString style, int teamNum, int remainedMalNum){

@@ -11,7 +11,9 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
         this->malLocation.insert(i, tmp);
     }
 
-    this->clickedButtonNum = 0;
+    this->clickedButtonNum = 1;
+    this->isOutted = false;
+    this->isWrongClicked = false;
 
     setButtonList();
 }
@@ -21,19 +23,6 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
 // before game start, setup
 //
 //================================================================
-/** set teams queue
- * @brief YutModel::setQQueueTeams
- * @param teams
- */
-//void YutModel::setQQueueTeams(int teams){
-//    if(this->teamYutInfo.size()!=teams){
-//        for(int i=1;i<=teams;i++){ //start idx from "1"
-//            QQueue<int> tmpQueue;
-//            this->teamYutInfo.insert(i, tmpQueue);
-//        }
-//    }
-//}
-
 /**
  * @brief YutModel::setButtonList
  */
@@ -242,59 +231,160 @@ void YutModel::calcFromBoardButton(){
             }
         }
         else{
+            if(this->onBoard){
+                for(int i=0; i<yutNum; i++){
+                    if(i < yutNum && btn->num == 0){
+                        this->isOutted = true;
+                        break;
+                    }
+                    btn = btn->nextStep[0];
+                }
+                if(this->isOutted)
+                    break;
+                if(btn->mals){
+                    this->isMalExist.push_back(true);
+                }
+                else{
+                    this->isMalExist.push_back(false);
+                }
+                this->clickableLocation.push_back(btn->num);
+
+
+                btn = this->buttonList[this->clickedButtonNum];
+                for(int i=0; i<yutNum; i++){
+                    if(!i)
+                        btn = btn->nextStep[1];
+                    else{
+                        if(this->clickedButtonNum == 5 && btn->num == 28)
+                            btn = btn->nextStep[0];
+                        else if(this->clickedButtonNum == 10 && btn->num == 28)
+                            btn = btn->nextStep[1];
+                        else
+                            btn = btn->nextStep[0];
+                    }
+                 }
+                 this->clickableLocation.push_back(btn->num);
+                 if(btn->mals){
+                    this->isMalExist.push_back(true);
+                 }
+                 else{
+                    this->isMalExist.push_back(false);
+                 }
+            }
+            else{
+                for(int i=1; i<yutNum; i++){
+                    btn = btn->nextStep[0];
+                }
+                if(btn->mals){
+                    this->isMalExist.push_back(true);
+                }
+                else{
+                    this->isMalExist.push_back(false);
+                }
+                this->clickableLocation.push_back(btn->num);
+
+
+                btn = this->buttonList[this->clickedButtonNum];
+                for(int i=0; i<yutNum; i++){
+                    if(!i)
+                        btn = btn->nextStep[1];
+                    else
+                        btn = btn->nextStep[0];
+                 }
+                 this->clickableLocation.push_back(btn->num);
+                 if(btn->mals){
+                    this->isMalExist.push_back(true);
+                 }
+                 else{
+                    this->isMalExist.push_back(false);
+                 }
+            }
+        }
+        break;
+    default:
+        if(this->onBoard){
             for(int i=0; i<yutNum; i++){
+                if(i < yutNum && btn->num == 0){
+                    this->isOutted = true;
+                    break;
+                }
                 btn = btn->nextStep[0];
             }
+            if(this->isOutted)
+                break;
+
+            this->clickableLocation.push_back(btn->num);
             if(btn->mals){
                 this->isMalExist.push_back(true);
             }
             else{
                 this->isMalExist.push_back(false);
             }
-            this->clickableLocation.push_back(btn->num);
-
-
-            btn = this->buttonList[this->clickedButtonNum];
-            for(int i=0; i<yutNum; i++){
-                if(!i)
-                    btn = btn->nextStep[1];
-                else
-                    btn = btn->nextStep[0];
-             }
-             this->clickableLocation.push_back(btn->num);
-             if(btn->mals){
-                this->isMalExist.push_back(true);
-             }
-             else{
-                this->isMalExist.push_back(false);
-             }
-        }
-        break;
-    default:
-        for(int i=0; i<yutNum; i++){
-            btn = btn->nextStep[0];
-        }
-        this->clickableLocation.push_back(btn->num);
-        if(btn->mals){
-            this->isMalExist.push_back(true);
+            break;
         }
         else{
-            this->isMalExist.push_back(false);
+            for(int i=1; i<yutNum; i++){
+                btn = btn->nextStep[0];
+            }
+            this->clickableLocation.push_back(btn->num);
+            if(btn->mals){
+                this->isMalExist.push_back(true);
+            }
+            else{
+                this->isMalExist.push_back(false);
+            }
+            break;
         }
-        break;
+
     }
 }
 
 bool YutModel::updateBoardButton(){
     // false : 말 잡기x
     // true : 말 잡기 ㅇ
-    BoardButton* btn = this->buttonList[this->clickedButtonNum];
+    BoardButton* btn;
+    if(this->isOutted){
+        int removeIndex = 0;
+        for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+            if(this->malLocation[this->currentTeamNum][i].first == 0){
+                removeIndex = i;
+            }
+        }
+        this->malLocation[this->currentTeamNum].remove(removeIndex);
+        btn = this->buttonList[0];
+        btn->mals = 0;
+
+        this->setButtonDisableAll();
+        this->clickableLocation.clear();
+        this->isMalExist.clear();
+        return false;
+    }
+    btn = this->buttonList[this->clickedButtonNum];
+    if(!this->clickableLocation.contains(btn->num)){
+        this->isWrongClicked = true;
+
+        this->setButtonDisableAll();
+        this->clickableLocation.clear();
+        this->isMalExist.clear();
+
+        return false;
+    }
     if(!btn->mals){
         // 빈칸
-        btn->mals++;
         btn->team = this->currentTeamNum;
+        if(this->onBoard){
+            for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
+                    btn->mals = this->malLocation[this->currentTeamNum][i].second;
+                }
+            }
+        }
+        else{
+            btn->mals = 1;
+        }
         QPair<int, int> tmpPair(btn->num, btn->mals);
         this->malLocation[this->currentTeamNum].push_back(tmpPair);
+
         if(this->onBoard){
             int removeNum = -1;
             for(int i =0; i<this->malLocation[this->currentTeamNum].size(); i++){
@@ -303,13 +393,9 @@ bool YutModel::updateBoardButton(){
                 }
             }
             this->malLocation[this->currentTeamNum].remove(removeNum);
+            btn = this->buttonList[this->firstClickedButtonNum];
+            btn->mals = 0;
         }
-
-//        for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
-//            qDebug() << this->malLocation[this->currentTeamNum].contains(3);
-//            qDebug() << "i == " << i;
-//            qDebug() << this->malLocation[this->currentTeamNum][i];
-//        }
         this->setButtonDisableAll();
         this->clickableLocation.clear();
         this->isMalExist.clear();
@@ -319,6 +405,13 @@ bool YutModel::updateBoardButton(){
         if(btn->team == this->currentTeamNum){
             //업기
             btn->mals++;
+            for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                if(this->malLocation[this->currentTeamNum][i].first == btn->num)
+                    this->malLocation[this->currentTeamNum][i].second = btn->mals;
+            }
+            this->setButtonDisableAll();
+            this->clickableLocation.clear();
+            this->isMalExist.clear();
             return false;
         }
         else{
@@ -351,4 +444,8 @@ void YutModel::setButtonDisableAll(){
 
 QMap<int, QVector<QPair<int, int > > > YutModel::getAllMalLocation(){
     return this->malLocation;
+}
+
+void YutModel::clearClickableLoc(){
+    this->clickableLocation.clear();
 }

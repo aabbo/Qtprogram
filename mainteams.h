@@ -14,7 +14,7 @@ public:
     explicit MainTeams(int teamNum, int malNum, QWidget *parent = nullptr);
 
 public:
-    void setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<int> remainMalNum);
+    void setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<int> remainMalNum, QVector<int> outtedMalNum);
     void setButtonStyle(QString style, int teamNum, int remainedMalNum);
     void setLabelStyleSheet(int teamNum, QString style);
     void setButtonEnable(int teamNum, int remainedMalNum);
@@ -23,12 +23,14 @@ private:
     void setTeams(int totalTeamNum, int totalMalNum);
 
 public:
-    QGridLayout* grid;
+    QGridLayout* mal;
+    QGridLayout* result;
 
 private:
     QWidget *parent;
     QVector<QVector<QPushButton*> > MalButtonList;
     QVector<QLabel*> teamLabelList;
+    QVector<QLabel*> resutlLabelList;
 
 
 };

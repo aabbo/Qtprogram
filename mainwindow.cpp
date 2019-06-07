@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     teams=new MainTeams(this->ymodel->numOfTeam, this->ymodel->numOfMal, this);
     this->malHighlightCanclation();
     teams->setLabelStyleSheet(1, this->HighlightStyle);
-    ui->InfoFrame->setLayout(teams->grid);
+    ui->MalFrame->setLayout(teams->mal);
+    ui->ResultFrame->setLayout(teams->result);
 }
 
 MainWindow::~MainWindow()
@@ -53,7 +54,6 @@ void MainWindow::on_RandomButton_clicked()
 
 void MainWindow::on_SelectButton_clicked()
 {   //012345
-    qDebug()<<"test==select btn clicked";
     this->ui->SelectButtonStack->setCurrentIndex(1);
 }
 
@@ -226,12 +226,12 @@ bool MainWindow::setYutResult(QQueue<int> result){
 }
 
 void MainWindow::MalClicked(){
-    qDebug()<<"test==clicked!!";
     this->yctrl->clickedRemainedMal();
 }
 
 void MainWindow::malHighlightCanclation(){
-    this->teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam, this->ymodel->getAllRemainMalNum());
+    this->teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam,
+                                        this->ymodel->getAllRemainMalNum(), this->ymodel->getAllOuttedMalNum());
 }
 
 void MainWindow::on_BackDo_clicked()

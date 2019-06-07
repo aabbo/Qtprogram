@@ -25,7 +25,6 @@ void BoardSetThread::run(){
         }
         this->msleep(30);
     }
-    qDebug() << "thread end";
     emit threadEnd();
 }
 
