@@ -84,7 +84,7 @@ void MainWindow::afterClickYut(bool status){
     setYutResult(resultQueue);
     if(status){
         this->setButtonDisable(ui->SelectButtonStack->currentIndex());
-        Sleep(1000);
+        Sleep(500);
         this->yctrl->setStart();
     }
 }
