@@ -49,11 +49,11 @@ void YutController::clickedBoardBtn(int num){
         }
         this->ymodel->setButtonDisableAll();
         mw->enableCurrentBoardButtonLocation();
-//        this->ymodel->clearClickableLoc();
         emit malClicked();
     }
     else{
         bool status = this->ymodel->updateBoardButton();
+        // 말 놓기
         if(status && !this->ymodel->isWrongClicked){
             // 말 잡음
         }
@@ -92,18 +92,10 @@ void YutController::clickedRemainedMal(){
         emit malClicked();
     }
     else{
-        // 처음부터 빽도
-        if(this->ymodel->getCurrentTeamRemainMalNum() == 5){
-            // 보드에 말이 올라가 있지 않은 상황에 빽도
-            // 턴 종료
-            emit boardButtonClicked();
-            emit updateQueue(this->ymodel->isQueueEmpty());
-        }
-        else{
-            // 보드에 말이 올라가 있는 상황에 빽도
-            // 다른 말 선택 유도
+        // 보드에 말이 올라가 있는 상황에 빽도
+        // 다른 말 선택 유도
 
-        }
+        // 절대 실행 안되는 부분
     }
     this->boardSet = false;
     mw->malHighlightCanclation();
@@ -115,6 +107,11 @@ void YutController::clickedYut(int yut){
 }
 
 void YutController::setStart(){
+    if(this->ymodel->getAllRemainMalNum().at(this->ymodel->getCurrentTeamNum()-1) == 5 && this->ymodel->getCurrentQueue().at(0) == 0){
+        Sleep(1000);
+        this->malSetEnd();
+        return;
+    }
     this->boardSet = true;
     emit threadInit();
     this->thread->start();

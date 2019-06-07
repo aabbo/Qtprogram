@@ -34,6 +34,7 @@ private:
     QVector<bool> isMalExist; // 잡기 구현할 때 사용
     QVector<BoardButton*> buttonList; // 현재 배치된 모든 버튼의 정보, 게임 끝날때까지 유지해야함.
     QVector<bool> buttonEnable; // 현재 버튼이 클릭 가능한지 판단. 수시로 갱신되어야함.
+    QVector<int> prevClickedLoc;
 
 public :
     void setValueOfMals(int val);

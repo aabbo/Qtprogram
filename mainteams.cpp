@@ -97,3 +97,9 @@ void MainTeams::setButtonEnable(int teamNum, int remainedMalNum){
         this->MalButtonList[teamNum-1].at(i)->setDisabled(false);
     }
 }
+
+void MainTeams::setButtonDisable(int teamNum, int remainedMalNum){
+    for(int i=0; i<remainedMalNum; i++){
+        this->MalButtonList[teamNum-1].at(i)->setDisabled(true);
+    }
+}

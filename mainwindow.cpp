@@ -81,9 +81,9 @@ void MainWindow::afterClickYut(bool status){
     setYutImg(yut);
     //show yut result list
     setYutResult(resultQueue);
-
     if(status){
         this->setButtonDisable(ui->SelectButtonStack->currentIndex());
+        Sleep(1000);
         this->yctrl->setStart();
     }
 }
@@ -115,15 +115,21 @@ void MainWindow::enableCurrentBoardButtonLocation(){
 void MainWindow::setEnableMalButton(){
     // 사용자가 윷을 던지고 나서
     // 사용자가 선택할 수 있는 모든 말판을 Highlight시켜줌
+    int yutNum = this->ymodel->getCurrentQueue().front();
+    this->setYutImg(yutNum);
+    this->setYutResult(this->ymodel->getCurrentQueue());
 
+    if(!yutNum){
+        this->teams->setButtonDisable(this->ymodel->getCurrentTeamNum(),
+                                      this->ymodel->getCurrentTeamRemainMalNum());
+    }
     // 남아있는 말들 하이라이트
-    if(this->ymodel->getCurrentTeamRemainMalNum()){
+    if(this->ymodel->getCurrentTeamRemainMalNum() && yutNum){
         this->teams->setButtonEnable(this->ymodel->getCurrentTeamNum(),
                                      this->ymodel->getCurrentTeamRemainMalNum());
         this->teams->setButtonStyle(this->ButtonBorderHighlight, this->ymodel->getCurrentTeamNum(),
                                     this->ymodel->getCurrentTeamRemainMalNum());
     }
-
     // 현재 메인 보드에 올라가있는 말 하이라이트
     QVector<QPair<int, int>> tmp = this->ymodel->getCurrentMalLocation();
     if(tmp.size() > 0){
@@ -190,13 +196,14 @@ bool MainWindow::setYutImg(int yut){
     bool status=true;
 
     QString filepath=":/img/yut_"+QString::number(yut)+".png";
-    QPixmap  mypix = QPixmap(filepath);
+    QPixmap mypix = QPixmap(filepath);
     int size=ui->YutImage->width();
     if(size>ui->YutImage->height())
         size=ui->YutImage->height();
     mypix = mypix.scaled(size,size , Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->YutImage->setPixmap(mypix);
-    //delete mypix;
+
+    this->repaint();
 
     return status;
 }
@@ -222,6 +229,8 @@ bool MainWindow::setYutResult(QQueue<int> result){
         }
     }
     ui->ResultLabel->setText(str);
+    this->repaint();
+
     return status;
 }
 
@@ -230,6 +239,8 @@ void MainWindow::MalClicked(){
 }
 
 void MainWindow::malHighlightCanclation(){
+    this->teams->setButtonDisable(this->ymodel->getCurrentTeamNum(),
+                                  this->ymodel->getCurrentTeamRemainMalNum());
     this->teams->setButtonStyleSheetAll(this->ButtonStyle, this->ymodel->numOfTeam,
                                         this->ymodel->getAllRemainMalNum(), this->ymodel->getAllOuttedMalNum());
 }

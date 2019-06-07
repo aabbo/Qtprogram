@@ -44,7 +44,6 @@ public:
     void malHighlightCanclation();
 
     int getStackedWidgetIndex();
-
 private:
     bool setYutImg(int yut);
     bool setYutResult(QQueue<int> result);

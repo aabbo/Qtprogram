@@ -18,6 +18,7 @@ public:
     void setButtonStyle(QString style, int teamNum, int remainedMalNum);
     void setLabelStyleSheet(int teamNum, QString style);
     void setButtonEnable(int teamNum, int remainedMalNum);
+    void setButtonDisable(int teamNum, int remainedMalNum);
 
 private:
     void setTeams(int totalTeamNum, int totalMalNum);

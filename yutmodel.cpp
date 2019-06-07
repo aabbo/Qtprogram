@@ -5,6 +5,7 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
 {
     this->remainMalNum.fill(totalMalNum, totalTeamNum);
     this->outtedMalNum.fill(0, totalTeamNum);
+    this->prevClickedLoc.fill(0, totalTeamNum);
 
     QVector<QPair<int, int>> tmp;
     for(int i=1; i<=totalTeamNum;i++){
@@ -43,6 +44,7 @@ void YutModel::setButtonList(){
                 tmpBtn->nextStep.push_back(this->buttonList[1]);
                 tmpBtn->nextStep.push_back(this->buttonList[29]);
                 tmpBtn->prevStep.push_back(this->buttonList[19]);
+                tmpBtn->prevStep.push_back(this->buttonList[20]);
             }
             else if(i==5){
                 tmpBtn->nextStep.push_back(this->buttonList[6]);
@@ -55,6 +57,12 @@ void YutModel::setButtonList(){
                 tmpBtn->prevStep.push_back(this->buttonList[9]);
                 tmpBtn->nextStep.push_back(this->buttonList[22]);
                 tmpBtn->prevStep.push_back(this->buttonList[9]);
+            }
+            else if(i == 15){
+                tmpBtn->nextStep.push_back(this->buttonList[16]);
+                tmpBtn->nextStep.push_back(this->buttonList[16]);
+                tmpBtn->prevStep.push_back(this->buttonList[14]);
+                tmpBtn->prevStep.push_back(this->buttonList[23]);
             }else {
                 tmpBtn->nextStep.push_back(this->buttonList[i+1]);
                 tmpBtn->prevStep.push_back(this->buttonList[i-1]);
@@ -207,12 +215,14 @@ void YutModel::calcFromBoardButton(){
     int yutNum = this->teamYutInfo.dequeue();
     BoardButton* btn = this->buttonList[this->clickedButtonNum];
     switch(this->clickedButtonNum){
+    case 0:
     case 5:
     case 10:
+    case 15:
     case 28:
         if(yutNum  == 0){
             //빽도
-            btn = btn->prevStep[0];
+            btn = btn->prevStep[this->prevClickedLoc[this->currentTeamNum-1]];
             if(btn->mals){
                 this->isMalExist.push_back(true);
             }else{
@@ -220,15 +230,14 @@ void YutModel::calcFromBoardButton(){
             }
             this->clickableLocation.push_back(btn->num);
 
-            if(this->clickedButtonNum){
-                btn = btn->prevStep[1];
-                if(btn->mals){
-                    this->isMalExist.push_back(true);
-                }
-                else{
-                    this->isMalExist.push_back(false);
-                }
-            }
+//            btn = btn->prevStep[1];
+//            if(btn->mals){
+//                this->isMalExist.push_back(true);
+//            }
+//            else{
+//                this->isMalExist.push_back(false);
+//            }
+//            this->clickableLocation.push_back(btn->num);
         }
         else{
             if(this->onBoard){
@@ -302,40 +311,51 @@ void YutModel::calcFromBoardButton(){
         }
         break;
     default:
-        if(this->onBoard){
-            for(int i=0; i<yutNum; i++){
-                if(i < yutNum && btn->num == 0){
-                    this->isOutted = true;
-                    break;
-                }
-                btn = btn->nextStep[0];
-            }
-            if(this->isOutted)
-                break;
-
-            this->clickableLocation.push_back(btn->num);
+        if(yutNum == 0){
+            btn = btn->prevStep[0];
             if(btn->mals){
                 this->isMalExist.push_back(true);
-            }
-            else{
+            }else{
                 this->isMalExist.push_back(false);
             }
-            break;
+            this->clickableLocation.push_back(btn->num);
         }
         else{
-            for(int i=1; i<yutNum; i++){
-                btn = btn->nextStep[0];
-            }
-            this->clickableLocation.push_back(btn->num);
-            if(btn->mals){
-                this->isMalExist.push_back(true);
+            if(this->onBoard){
+                for(int i=0; i<yutNum; i++){
+                    if(i < yutNum && btn->num == 0){
+                        this->isOutted = true;
+                        break;
+                    }
+                    btn = btn->nextStep[0];
+                }
+                if(this->isOutted)
+                    break;
+
+                this->clickableLocation.push_back(btn->num);
+                if(btn->mals){
+                    this->isMalExist.push_back(true);
+                }
+                else{
+                    this->isMalExist.push_back(false);
+                }
+                break;
             }
             else{
-                this->isMalExist.push_back(false);
+                for(int i=1; i<yutNum; i++){
+                    btn = btn->nextStep[0];
+                }
+                this->clickableLocation.push_back(btn->num);
+                if(btn->mals){
+                    this->isMalExist.push_back(true);
+                }
+                else{
+                    this->isMalExist.push_back(false);
+                }
+                break;
             }
-            break;
-        }
 
+        }
     }
 }
 
@@ -359,6 +379,7 @@ bool YutModel::updateBoardButton(){
         this->isMalExist.clear();
         return false;
     }
+
     btn = this->buttonList[this->clickedButtonNum];
     if(!this->clickableLocation.contains(btn->num)){
         this->isWrongClicked = true;
@@ -368,6 +389,11 @@ bool YutModel::updateBoardButton(){
         this->isMalExist.clear();
 
         return false;
+    }
+    for(int i=0; i<clickableLocation.size(); i++){
+        if(clickableLocation[i] == btn->num){
+            this->prevClickedLoc[this->currentTeamNum-1] = i%2;
+        }
     }
     if(!btn->mals){
         // 빈칸
