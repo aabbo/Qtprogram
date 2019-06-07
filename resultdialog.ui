@@ -106,14 +106,14 @@ text-align:right;
        <item>
         <widget class="QPushButton" name="restart_button">
          <property name="text">
-          <string>PushButton</string>
+          <string>Restart</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="end_button">
          <property name="text">
-          <string>PushButton</string>
+          <string>End</string>
          </property>
         </widget>
        </item>

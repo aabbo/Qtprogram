@@ -1,5 +1,6 @@
 #include "yutmodel.h"
 #include <QDebug>
+#include <QTime>
 
 YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), numOfTeam(totalTeamNum)
 {
@@ -15,6 +16,7 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
     this->clickedButtonNum = 1;
     this->isOutted = false;
     this->isWrongClicked = false;
+    this->isGameEnd = false;
 
     setButtonList();
 }
@@ -125,9 +127,10 @@ void YutModel::setMainBoardButtonEnable(int index, bool isEnable){
  * 5 : mo
  */
 bool YutModel::set_clickedYut(int yut){
+    qsrand(QTime::currentTime().msecsSinceStartOfDay());
     int mYut=yut;
     if(yut==-1){
-        mYut=rand()%6;
+        mYut=qrand()%6;
     }
     //show yut img
     //show yut result list
@@ -255,6 +258,10 @@ void YutModel::calcFromBoardButton(){
                     if(!i)
                         btn = btn->nextStep[1];
                     else{
+                        if(i < yutNum && btn->num == 0){
+                            this->isOutted = true;
+                            break;
+                        }
                         if(this->clickedButtonNum == 5 && btn->num == 28)
                             btn = btn->nextStep[0];
                         else if(this->clickedButtonNum == 10 && btn->num == 28)
@@ -286,6 +293,10 @@ void YutModel::calcFromBoardButton(){
 
                 btn = this->buttonList[this->clickedButtonNum];
                 for(int i=0; i<yutNum; i++){
+                    if(i < yutNum && btn->num == 0){
+                        this->isOutted = true;
+                        break;
+                    }
                     if(!i)
                         btn = btn->nextStep[1];
                     else
@@ -359,7 +370,13 @@ bool YutModel::updateBoardButton(){
         for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
             if(this->malLocation[this->currentTeamNum][i].first == 0){
                 removeIndex = i;
+                this->outtedMalNum[this->currentTeamNum-1] += this->malLocation[this->currentTeamNum][i].second;
             }
+        }
+        if(this->outtedMalNum.contains(this->numOfMal)){
+            qDebug() << "end game";
+            this->isGameEnd = true;
+            this->winningTeamNum = this->currentTeamNum;
         }
         this->malLocation[this->currentTeamNum].remove(removeIndex);
         btn = this->buttonList[0];
@@ -370,6 +387,7 @@ bool YutModel::updateBoardButton(){
         this->isMalExist.clear();
         return false;
     }
+
 
     btn = this->buttonList[this->clickedButtonNum];
     if(!this->clickableLocation.contains(btn->num)){
@@ -426,6 +444,17 @@ bool YutModel::updateBoardButton(){
                 if(this->malLocation[this->currentTeamNum][i].first == btn->num)
                     this->malLocation[this->currentTeamNum][i].second = btn->mals;
             }
+            if(this->onBoard){
+                int removeNum = -1;
+                for(int i =0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                    if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
+                        removeNum = i;
+                    }
+                }
+                this->malLocation[this->currentTeamNum].remove(removeNum);
+                btn = this->buttonList[this->firstClickedButtonNum];
+                btn->mals = 0;
+            }
             this->setButtonDisableAll();
             this->clickableLocation.clear();
             this->isMalExist.clear();
@@ -481,6 +510,7 @@ void YutModel::endTurn(){
     this->setButtonDisableAll();
     this->clickableLocation.clear();
     this->isMalExist.clear();
+    this->teamYutInfo.clear();
     this->currentTeamNum++;
     if(this->currentTeamNum > this->numOfTeam)
         this->currentTeamNum = 1;

@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
 
     YutController * yctrl=new YutController();
@@ -10,5 +11,21 @@ int main(int argc, char *argv[])
         a.quit();
         return 0;
     }
-    return a.exec();
+    while(1){
+        int tmp = a.exec();
+        if(tmp == 0){
+            if(yctrl->isRestart){
+                delete yctrl;
+                yctrl = new YutController();
+                if(yctrl->gamestart == false){
+                    a.quit();
+                    return 0;
+                }
+            }
+            else{
+                break;
+            }
+        }
+    }
+    return 0;
 }

@@ -33,14 +33,16 @@ public:
     void clickedRemainedMal();
     void setStart();
     void endTurn();
+    void resetGame();
 
-private:
+public:
     MainWindow * mw;
     SetupDialog * sd;
     ResultDialog * rd;
     YutModel* ymodel;
     BoardSetThread* thread;
     bool isThreadExist;
+    bool isRestart;
 public:
     bool boardSet = false;
 };

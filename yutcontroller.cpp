@@ -18,6 +18,7 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
         mw->show();
     }
+    this->isRestart = false;
     // ready thread
     this->thread = new BoardSetThread(this);
     connect(this, SIGNAL(updateQueue(bool)), thread, SLOT(updateQueue(bool)));
@@ -39,8 +40,12 @@ void YutController::clickedBoardBtn(int num){
         this->ymodel->calcFromBoardButton();
 
         if(this->ymodel->isOutted){
-            this->ymodel->outtedMalNum[this->ymodel->getCurrentTeamNum()-1]++;
             this->ymodel->updateBoardButton();
+            if(this->ymodel->isGameEnd){
+                qDebug() << "end game2";
+                rd = new ResultDialog(this->ymodel->winningTeamNum, this, nullptr);
+                rd->exec();
+            }
             mw->setMainBoardUpdate();
             this->ymodel->isOutted = false;
             emit malClicked();
@@ -54,6 +59,7 @@ void YutController::clickedBoardBtn(int num){
     }
     else{
         bool status = this->ymodel->updateBoardButton();
+
         // 말 놓기
         if(status && !this->ymodel->isWrongClicked){
             // 말 잡음
@@ -112,8 +118,10 @@ void YutController::clickedYut(int yut){
 }
 
 void YutController::setStart(){
-    if(this->ymodel->getAllRemainMalNum().at(this->ymodel->getCurrentTeamNum()-1) == 5 && this->ymodel->getCurrentQueue().at(0) == 0){
-        Sleep(1000);
+    if((this->ymodel->getAllRemainMalNum().at(this->ymodel->getCurrentTeamNum()-1) +
+        this->ymodel->getAllOuttedMalNum().at(this->ymodel->getCurrentTeamNum()-1)) == this->ymodel->numOfMal
+            && this->ymodel->getCurrentQueue().at(0) == 0){
+        Sleep(500);
         this->malSetEnd();
         return;
     }else {
@@ -123,7 +131,6 @@ void YutController::setStart(){
             this->thread->start();
             this->isThreadExist = true;
         }
-
     }
 
 }
@@ -137,4 +144,8 @@ void YutController::malSetEnd(){
 
 void YutController::updateEnableMal(){
     mw->setEnableMalButton();
+}
+
+void YutController::resetGame(){
+    YutController* tmp = this;
 }
