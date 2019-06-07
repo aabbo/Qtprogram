@@ -444,15 +444,30 @@ bool YutModel::updateBoardButton(){
             this->malLocation[btn->team].remove(removeIndex);
 
             // 잡은 팀 말 배치
-            btn->mals = 1;
-            btn->team = this->currentTeamNum;
-            QPair<int, int> tmpPair(btn->num, btn->mals);
+            if(this->onBoard){
+                int malNum = 0;
+                for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                    if(this->malLocation[this->currentTeamNum][i].first == firstClickedButtonNum){
+                        malNum = this->malLocation[this->currentTeamNum][i].second;
+                        removeIndex = i;
+                    }
+                }
+                this->malLocation[this->currentTeamNum].remove(removeIndex);
+                btn->team = this->currentTeamNum;
+                btn->mals = malNum;
+            }
+            else{
+                btn->mals = 1;
+                btn->team = this->currentTeamNum;
+            }
+            QPair<int, int> tmpPair(this->clickedButtonNum, btn->mals);
             this->malLocation[this->currentTeamNum].push_back(tmpPair);
 
             this->setButtonDisableAll();
             this->clickableLocation.clear();
             this->isMalExist.clear();
             return true;
+
         }
     }
 }
