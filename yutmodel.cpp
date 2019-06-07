@@ -6,7 +6,7 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
     this->remainMalNum.fill(totalMalNum, totalTeamNum);
     this->outtedMalNum.fill(0, totalTeamNum);
 
-    QVector<int> tmp;
+    QVector<QPair<int, int>> tmp;
     for(int i=1; i<=totalTeamNum;i++){
         this->malLocation.insert(i, tmp);
     }
@@ -41,9 +41,11 @@ void YutModel::setButtonList(){
     for(int i=0;i<29;i++){
         BoardButton* btn=new BoardButton(i);
         this->buttonList.push_back(btn);
+        this->buttonEnable.push_back(false);
     }
     BoardButton* btn = new BoardButton(30);
     this->buttonList.push_back(btn);
+    this->buttonEnable.push_back(false);
 
     for(int i=0; i<20; i++){
         BoardButton* tmpBtn = this->buttonList[i];
@@ -105,6 +107,10 @@ void YutModel::setButtonList(){
 
 }
 
+void YutModel::setMainBoardButtonEnable(int index, bool isEnable){
+    this->buttonEnable[index] = isEnable;
+}
+
 //================================================================
 //
 // game start
@@ -146,6 +152,10 @@ bool YutModel::isQueueEmpty(){
     return this->teamYutInfo[this->currentTeamNum].isEmpty();
 }
 
+bool YutModel::getMainBoardButtonEnable(int index){
+    return this->buttonEnable[index];
+}
+
 QQueue<int> YutModel::getCurrentQueue(){
     return this->teamYutInfo[this->currentTeamNum];
 }
@@ -154,7 +164,7 @@ QVector<int> YutModel::getCurrentClickableLocation(){
     return this->clickableLocation;
 }
 
-QVector<int> YutModel::getCurrentMalLocation(){
+QVector<QPair<int, int>> YutModel::getCurrentMalLocation(){
     return this->malLocation[this->currentTeamNum];
 }
 
@@ -211,22 +221,53 @@ void YutModel::calcFromBoardButton(){
     case 5:
     case 10:
     case 28:
-        for(int i=0; i<yutNum; i++){
-            btn = btn->nextStep[0];
-        }
-        this->clickableLocation.push_back(btn->num);
-        btn = this->buttonList[this->clickedButtonNum];
-        for(int i=0; i<yutNum; i++){
-            if(i == 0)
-                btn = btn->nextStep[1];
-            else
-                btn = btn->nextStep[0];
-        }
-        if(btn->mals){
-            this->isMalExist.push_back(true);
+        if(yutNum  == 0){
+            //빽도
+            btn = btn->prevStep[0];
+            if(btn->mals){
+                this->isMalExist.push_back(true);
+            }else{
+                this->isMalExist.push_back(false);
+            }
+            this->clickableLocation.push_back(btn->num);
+
+            if(this->clickedButtonNum){
+                btn = btn->prevStep[1];
+                if(btn->mals){
+                    this->isMalExist.push_back(true);
+                }
+                else{
+                    this->isMalExist.push_back(false);
+                }
+            }
         }
         else{
-            this->isMalExist.push_back(false);
+            for(int i=0; i<yutNum; i++){
+                btn = btn->nextStep[0];
+            }
+            if(btn->mals){
+                this->isMalExist.push_back(true);
+            }
+            else{
+                this->isMalExist.push_back(false);
+            }
+            this->clickableLocation.push_back(btn->num);
+
+
+            btn = this->buttonList[this->clickedButtonNum];
+            for(int i=0; i<yutNum; i++){
+                if(!i)
+                    btn = btn->nextStep[1];
+                else
+                    btn = btn->nextStep[0];
+             }
+             this->clickableLocation.push_back(btn->num);
+             if(btn->mals){
+                this->isMalExist.push_back(true);
+             }
+             else{
+                this->isMalExist.push_back(false);
+             }
         }
         break;
     default:
@@ -252,7 +293,13 @@ bool YutModel::updateBoardButton(){
         // 빈칸
         btn->mals++;
         btn->team = this->currentTeamNum;
-        this->malLocation[this->currentTeamNum].push_back(btn->num);
+        QPair<int, int> tmpPair(btn->num, btn->mals);
+        this->malLocation[this->currentTeamNum].push_back(tmpPair);
+//        for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+//            qDebug() << this->malLocation[this->currentTeamNum].contains(3);
+//            qDebug() << "i == " << i;
+//            qDebug() << this->malLocation[this->currentTeamNum][i];
+//        }
         return false;
     }
     else {
@@ -275,9 +322,20 @@ int YutModel::getCurrentButtonMalNum(){
 }
 
 void YutModel::endTurn(){
+    this->setButtonDisableAll();
     this->clickableLocation.clear();
     this->isMalExist.clear();
     this->currentTeamNum++;
     if(this->currentTeamNum > this->numOfTeam)
         this->currentTeamNum = 1;
+}
+
+void YutModel::setButtonDisableAll(){
+    for(int i=0; i<30; i++){
+        this->buttonEnable[i] = false;
+    }
+}
+
+QMap<int, QVector<QPair<int, int > > > YutModel::getAllMalLocation(){
+    return this->malLocation;
 }

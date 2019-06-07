@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     //yutPan set
     //board = new MainBoard(ymodel->buttonList,this);
     board = new MainBoard(this);
-    board->setButtonStyleSheetAll(this->ButtonStyle);
+    //board->setButtonStyleSheetAll(this->ButtonStyle);
+    board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
     ui->MainBoardFrame->setLayout(board->grid);
 
     // button set
@@ -37,7 +38,10 @@ MainWindow::~MainWindow()
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event){
     if(event->type() == QMouseEvent::MouseButtonPress){
-        this->yctrl->clickedBoardBtn(object->objectName().toInt());
+        int index = object->objectName().toInt();
+        if(this->ymodel->getMainBoardButtonEnable(index)){
+            this->yctrl->clickedBoardBtn(index);
+        }
     }
     return QWidget::eventFilter(object, event);
 }
@@ -97,13 +101,14 @@ void MainWindow::enableCurrentBoardButtonLocation(){
     QVector<bool> isExist = this->ymodel->getMalExistVec();
     if(location.size() > 0){
         for(int i=0; i<location.size(); i++){
-            this->board->buttonList[location[i]]->setDisabled(false);
+            //this->board->buttonList[location[i]]->setDisabled(false);
+            this->ymodel->setMainBoardButtonEnable(location[i], true);
             if(isExist[i]){
-                this->board->setButtonStyleSheet(location[i], this->ymodel->getCurrentTeamNum(),
-                                                 this->ymodel->getCurrentButtonMalNum(), this->ButtonBorderHighlight);
+                // 해당 위치에 있는 팀의 정보를 가져오도록 바꾸기
+                //board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
             }
             else {
-                this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
+                //this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
             }
         }
     }
@@ -117,10 +122,14 @@ void MainWindow::setEnableMalButton(){
         this->teams->setButtonStyle(this->ButtonBorderHighlight, this->ymodel->getCurrentTeamNum(),
                                     this->ymodel->getCurrentTeamRemainMalNum());
     }
-    QVector<int> tmp = this->ymodel->getCurrentMalLocation();
+    QVector<QPair<int, int>> tmp = this->ymodel->getCurrentMalLocation();
     if(tmp.size() > 0){
         for(int i=0; i<tmp.size(); i++){
-            this->board->buttonList[tmp[i]]->setDisabled(false);
+            //this->board->buttonList[tmp[i]]->setDisabled(false);
+            this->ymodel->setMainBoardButtonEnable(tmp[i].first, true); // 클릭 가능하게
+            // 하이라이트 코드 추가
+//            this->board->setButtonStyleSheet(tmp[i], this->ymodel->getCurrentTeamNum(),
+//                                             this->ymodel->getCurrentButtonMalNum(), this->ButtonBorderHighlight);
         }
     }
 }
@@ -159,8 +168,9 @@ void MainWindow::setButtonEnable(int index){
     }
 }
 
-void MainWindow::setMainBoardUpdate(int clickedBtnNum, int teamNum, int malNum){
-    this->board->setButtonStyleSheet(clickedBtnNum, teamNum, malNum, this->ButtonStyle);
+void MainWindow::setMainBoardUpdate(){
+    //this->board->setButtonStyleSheet(clickedBtnNum, teamNum, malNum, this->ButtonStyle);
+    board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), true);
 }
 
 /**

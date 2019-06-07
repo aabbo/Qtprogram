@@ -5,6 +5,8 @@
 #include "yutmodel.h"
 #include <QtWidgets>
 #include <QVector>
+#include <QMap>
+#include <QPair>
 #include <QGridLayout>
 
 class MainBoard : public QWidget
@@ -15,6 +17,8 @@ public:
     //MainBoard(vector<BoardButton*> btnList,QWidget* parent = nullptr);
     MainBoard( QWidget* parent = nullptr);
     void setBoard();
+    void boardUiUpdate(QMap<int, QVector<QPair<int, int>>> malLocation, int currentTeam, bool highlight);
+private:
     void setButtonStyleSheet(int num, QString style);
     void setButtonStyleSheet(int num, int teamNum, int malNum, QString style);
     void setButtonStyleSheetAll(QString style);
@@ -27,6 +31,12 @@ public:
 
 private:
     QWidget* parent;
+    const QString ButtonStyle = "border-color:rgb(0,0,0); border-width:1.2px; border-style:solid;"
+                                     "border-radius:25px;";
+    const QString ButtonBorderHighlight = "border-color:rgb(0,0,0); border-width:3.5px; border-style:solid;"
+                                          "border-radius:25px;";
+    const QString HighlightStyle = "image : url(:/img/highlight.png);";
+    const QString initStyle = "";
 };
 
 #endif // MAINBOARD_H

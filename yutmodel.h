@@ -4,6 +4,7 @@
 #include <QQueue>
 #include <QMap>
 #include <QVector>
+#include <QPair>
 #include "boardbutton.h"
 
 class YutModel
@@ -21,18 +22,21 @@ private:
     QVector<int> remainMalNum;
     QVector<int> outtedMalNum;
     QMap<int, QQueue<int>> teamYutInfo;
-    QMap<int, QVector<int>> malLocation;
+    QMap<int, QVector<QPair<int, int>>> malLocation;
     QVector<int> clickableLocation;
-    QVector<bool> isMalExist;
+    QVector<bool> isMalExist; // 잡기 구현할 때 사용
     QVector<BoardButton*> buttonList;
+    QVector<bool> buttonEnable;
 
 
 public :
     void setValueOfMals(int val);
     void setValueOfTeams(int val);
+    void setMainBoardButtonEnable(int index, bool isEnable);
     bool set_clickedYut(int yut);//if user click yut
     bool updateBoardButton();
 
+    bool getMainBoardButtonEnable(int index);
     QQueue<int> getCurrentQueue();
     QVector<int> getAllRemainMalNum();
     QVector<int> getAllOuttedMalNum();
@@ -42,7 +46,8 @@ public :
     int getCurrentButtonMalNum();
     QVector<int> getCurrentClickableLocation();
     QVector<bool> getMalExistVec();
-    QVector<int> getCurrentMalLocation();
+    QVector<QPair<int,int>> getCurrentMalLocation();
+    QMap<int, QVector<QPair<int,int> > > getAllMalLocation();
 
     bool calcFromStartButton();
     void calcFromBoardButton();
@@ -54,6 +59,7 @@ public :
 private:
     void setQQueueTeams(int teams);
     void setButtonList();
+    void setButtonDisableAll();
 
 };
 

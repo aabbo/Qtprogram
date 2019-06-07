@@ -39,7 +39,7 @@ public:
 
     void setButtonDisable(int index);
     void setButtonEnable(int index);
-    void setMainBoardUpdate(int clickedBtnNum, int teamNum, int malNum);
+    void setMainBoardUpdate();
 
     void malHighlightCanclation();
 

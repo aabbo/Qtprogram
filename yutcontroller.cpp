@@ -46,8 +46,7 @@ void YutController::clickedBoardBtn(int num){
         }
         else{
             // 말 잡기 x
-            mw->setMainBoardUpdate(num, this->ymodel->getCurrentTeamNum(),
-                                   this->ymodel->getCurrentButtonMalNum());
+            mw->setMainBoardUpdate();
 
             emit boardButtonClicked();
             emit updateQueue(this->ymodel->isQueueEmpty());

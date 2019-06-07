@@ -101,3 +101,23 @@ void MainBoard::setButtonStyleSheet(int num, int teamNum, int malNum, QString st
     this->buttonList[num]->setText("");
     this->buttonList[num]->setStyleSheet(btnStyle);
 }
+
+void MainBoard::boardUiUpdate(QMap<int, QVector<QPair<int, int> > > malLocation, int currentTeam, bool highlight){
+    QVector<int> existList;
+    for(int i=0; i<malLocation.size(); i++){
+        for(int j=0; j<malLocation[i].size(); j++){
+            if(highlight && i == currentTeam){
+                this->setButtonStyleSheet(malLocation[i][j].first, i, malLocation[i][j].second, this->ButtonBorderHighlight);
+            }else{
+                this->setButtonStyleSheet(malLocation[i][j].first, i, malLocation[i][j].second, this->ButtonStyle);
+            }
+
+            existList.push_back(malLocation[i][j].first);
+        }
+    }
+    for(int i=0; i<this->buttonList.size(); i++){
+        if(!existList.contains(i)){
+            this->setButtonStyleSheet(i, this->ButtonStyle);
+        }
+    }
+}
