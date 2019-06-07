@@ -39,7 +39,7 @@ private:
     ResultDialog * rd;
     YutModel* ymodel;
     BoardSetThread* thread;
-
+public:
     bool boardSet = false;
 };
 

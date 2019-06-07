@@ -38,7 +38,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event){
     if(event->type() == QMouseEvent::MouseButtonPress){
         int index = object->objectName().toInt();
         if(this->ymodel->getMainBoardButtonEnable(index)){
-            this->ymodel->onBoard = true;
             this->yctrl->clickedBoardBtn(index);
         }
     }
@@ -178,6 +177,7 @@ void MainWindow::setMainBoardUpdate(){
     // 하이라이트를 해줄 필요가 없음!
     //this->board->setButtonStyleSheet(clickedBtnNum, teamNum, malNum, this->ButtonStyle);
     board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
+    this->yctrl->boardSet=true;
 }
 
 /**

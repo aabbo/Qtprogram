@@ -24,6 +24,7 @@ private:
     bool check = true;
     bool isMalClicked = false;
     bool isBoardButtonClicked = false;
+    bool isInit = true;
 
 };
 

@@ -26,16 +26,20 @@ YutController::YutController(QObject *parent) : QObject(parent)
     connect(this, SIGNAL(boardButtonClicked()), thread, SLOT(boardButtonClicked()));
     connect(this, SIGNAL(threadInit()), thread, SLOT(init()));
 }
-
 void YutController::clickedBoardBtn(int num){
     qDebug() << "test==ctrl=="<< QString::number(num);
     // board button을 클릭하는 경우는 2가지
     // 1. 출발할 말 선택
     // 2. 선택한 말을 놓을 때
+    qDebug() << "mal Num" <<this->ymodel->clickedButtonNum;
+    qDebug() << "boardSet" << this->boardSet;
+    qDebug() << "onBoard" <<this->ymodel->onBoard;
     this->ymodel->clickedButtonNum = num;
     if(boardSet){
+        this->ymodel->firstClickedButtonNum = num;
         this->ymodel->calcFromBoardButton();
         this->boardSet = false;
+        this->ymodel->onBoard=true;
         mw->enableCurrentBoardButtonLocation();
         emit malClicked();
     }
@@ -57,6 +61,7 @@ void YutController::clickedBoardBtn(int num){
 void YutController::clickedRemainedMal(){
     bool status = true;
     status = this->ymodel->calcFromStartButton();
+    this->ymodel->onBoard = false;
     if(status){
         // 이동 가능
         // 이동 가능한 위치 하이라이팅
@@ -101,4 +106,5 @@ void YutController::malSetEnd(){
 
 void YutController::updateEnableMal(){
     mw->setEnableMalButton();
+    qDebug() << "enable mal called";
 }
