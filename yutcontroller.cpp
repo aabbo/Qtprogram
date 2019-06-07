@@ -18,13 +18,14 @@ YutController::YutController(QObject *parent) : QObject(parent)
 
         mw->show();
     }
-
     // ready thread
     this->thread = new BoardSetThread(this);
     connect(this, SIGNAL(updateQueue(bool)), thread, SLOT(updateQueue(bool)));
     connect(this, SIGNAL(malClicked()), thread, SLOT(malClicked()));
     connect(this, SIGNAL(boardButtonClicked()), thread, SLOT(boardButtonClicked()));
     connect(this, SIGNAL(threadInit()), thread, SLOT(init()));
+    connect(this, SIGNAL(threadRestart()), thread, SLOT(restart()));
+    this->isThreadExist = false;
 }
 void YutController::clickedBoardBtn(int num){
     // board button을 클릭하는 경우는 2가지
@@ -56,6 +57,10 @@ void YutController::clickedBoardBtn(int num){
         // 말 놓기
         if(status && !this->ymodel->isWrongClicked){
             // 말 잡음
+            mw->setMainBoardUpdate();
+            // 다시 던지기
+            mw->endTurn(true);
+            return;
         }
         else if(!this->ymodel->isWrongClicked && !status){
             // 말 잡기 x
@@ -111,14 +116,21 @@ void YutController::setStart(){
         Sleep(1000);
         this->malSetEnd();
         return;
+    }else {
+        this->boardSet = true;
+        emit threadRestart();
+        if(this->isThreadExist == false){
+            this->thread->start();
+            this->isThreadExist = true;
+        }
+
     }
-    this->boardSet = true;
-    emit threadInit();
-    this->thread->start();
+
 }
 
 void YutController::malSetEnd(){
     // mainWindow 화면 update
+    this->isThreadExist = false;
     this->ymodel->endTurn();
     mw->endTurn();
 }

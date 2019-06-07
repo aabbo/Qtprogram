@@ -45,3 +45,9 @@ void BoardSetThread::init(){
     this->isMalClicked = false;
     this->isBoardButtonClicked = false;
 }
+
+void BoardSetThread::restart(){
+    this->check = true;
+    this->isMalClicked = true;
+    this->isBoardButtonClicked= true;
+}

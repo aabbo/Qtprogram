@@ -63,6 +63,9 @@ void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<
                 this->MalButtonList.at(i-1).at(j)->setVisible(false);
                 continue;
             }
+            else{
+                this->MalButtonList.at(i-1).at(j)->setVisible(true);
+            }
             QString imageUrl = ":/img/team" + QString::number(i)+"_0.png";
             QString styleBtn = "image:url(" + imageUrl + ");" + style;
             this->MalButtonList.at(i-1).at(j)->setStyleSheet(styleBtn);

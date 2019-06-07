@@ -229,15 +229,6 @@ void YutModel::calcFromBoardButton(){
                 this->isMalExist.push_back(false);
             }
             this->clickableLocation.push_back(btn->num);
-
-//            btn = btn->prevStep[1];
-//            if(btn->mals){
-//                this->isMalExist.push_back(true);
-//            }
-//            else{
-//                this->isMalExist.push_back(false);
-//            }
-//            this->clickableLocation.push_back(btn->num);
         }
         else{
             if(this->onBoard){
@@ -442,7 +433,25 @@ bool YutModel::updateBoardButton(){
         }
         else{
             //잡기
+            //버튼에서 잡힌 팀 정보 제거
+            this->remainMalNum[btn->team-1] += btn->mals;
+            int removeIndex = 0;
+            for(int i=0; i<this->malLocation[btn->team].size(); i++){
+                if(this->malLocation[btn->team][i].first == btn->num){
+                    removeIndex = i;
+                }
+            }
+            this->malLocation[btn->team].remove(removeIndex);
 
+            // 잡은 팀 말 배치
+            btn->mals = 1;
+            btn->team = this->currentTeamNum;
+            QPair<int, int> tmpPair(btn->num, btn->mals);
+            this->malLocation[this->currentTeamNum].push_back(tmpPair);
+
+            this->setButtonDisableAll();
+            this->clickableLocation.clear();
+            this->isMalExist.clear();
             return true;
         }
     }
@@ -474,4 +483,14 @@ QMap<int, QVector<QPair<int, int > > > YutModel::getAllMalLocation(){
 
 void YutModel::clearClickableLoc(){
     this->clickableLocation.clear();
+}
+
+QPair<int, int> YutModel::getSpecificLocationInfo(int location){
+    for(int i=0; i<this->malLocation.size(); i++){
+        for(int j =0; j<this->malLocation[i].size(); i++){
+            if(this->malLocation[i][j].first == location)
+                return QPair<int, int>(i,this->malLocation[i][j].second);
+        }
+    }
+    return QPair<int, int>();
 }

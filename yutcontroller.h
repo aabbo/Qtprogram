@@ -20,6 +20,7 @@ signals:
     void malClicked();
     void boardButtonClicked();
     void threadInit();
+    void threadRestart();
 
 public slots:
     void malSetEnd();
@@ -39,6 +40,7 @@ private:
     ResultDialog * rd;
     YutModel* ymodel;
     BoardSetThread* thread;
+    bool isThreadExist;
 public:
     bool boardSet = false;
 };

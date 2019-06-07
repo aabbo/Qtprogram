@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "yutcontroller.h"
+#include <QPair>
 
 /**
  * main view, call setupdialog and resultdialog
@@ -103,6 +104,11 @@ void MainWindow::enableCurrentBoardButtonLocation(){
             this->ymodel->setMainBoardButtonEnable(location[i], true);
             if(isExist[i]){
                 // 해당 위치에 있는 팀의 정보를 가져오도록 바꾸기
+                QPair<int, int> tmpPair = this->ymodel->getSpecificLocationInfo(location[i]);
+                if(!(tmpPair == QPair<int, int>())){
+                    board->setButtonStyleSheet(location[i],tmpPair.first, tmpPair.second, this->ButtonBorderHighlight);
+                }
+
                 //board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
             }
             else {
@@ -143,11 +149,20 @@ void MainWindow::setEnableMalButton(){
     }
 }
 
-void MainWindow::endTurn(){
+void MainWindow::endTurn(bool status){
     this->malHighlightCanclation();
     this->setButtonEnable(ui->SelectButtonStack->currentIndex());
-    this->clearYutFrame();
-    this->teams->setLabelStyleSheet(this->ymodel->getCurrentTeamNum(), this->HighlightStyle);
+    if(status == false){
+        this->clearYutFrame();
+        this->teams->setLabelStyleSheet(this->ymodel->getCurrentTeamNum(), this->HighlightStyle);
+    }
+    else if(status == true){
+        if(!this->ymodel->getCurrentQueue().isEmpty()){
+            this->setYutImg(this->ymodel->getCurrentQueue().back());
+            this->setYutResult(this->ymodel->getCurrentQueue());
+        }
+        this->setButtonEnable(ui->SelectButtonStack->currentIndex());
+    }
 }
 
 void MainWindow::clearYutFrame(){

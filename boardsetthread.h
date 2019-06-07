@@ -18,6 +18,7 @@ public slots:
     void boardButtonClicked();
     void updateQueue(bool isEmpty);
     void init();
+    void restart();
 private:
     void run();
     QObject* parent;

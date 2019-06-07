@@ -32,7 +32,7 @@ public:
     ~MainWindow();
 
     void afterClickYut(bool status);
-    void endTurn();
+    void endTurn(bool status = false);
 
     void enableCurrentBoardButtonLocation();
     void setEnableMalButton();
