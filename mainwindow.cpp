@@ -15,10 +15,8 @@ MainWindow::MainWindow(QWidget *parent,YutModel* model,YutController* ctrl) :
     this->yctrl=ctrl;
 
     //yutPan set
-    //board = new MainBoard(ymodel->buttonList,this);
     board = new MainBoard(this);
-    //board->setButtonStyleSheetAll(this->ButtonStyle);
-    board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
+    board->setButtonStyleSheetAll(this->ButtonStyle);
     ui->MainBoardFrame->setLayout(board->grid);
 
     // button set
@@ -40,6 +38,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event){
     if(event->type() == QMouseEvent::MouseButtonPress){
         int index = object->objectName().toInt();
         if(this->ymodel->getMainBoardButtonEnable(index)){
+            this->ymodel->onBoard = true;
             this->yctrl->clickedBoardBtn(index);
         }
     }
@@ -108,28 +107,33 @@ void MainWindow::enableCurrentBoardButtonLocation(){
                 //board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
             }
             else {
-                //this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
+                this->board->setButtonStyleSheet(location[i], this->ButtonBorderHighlight);
             }
         }
     }
 }
 
 void MainWindow::setEnableMalButton(){
-    // 말 버튼 활성화 및 하이라이팅
+    // 사용자가 윷을 던지고 나서
+    // 사용자가 선택할 수 있는 모든 말판을 Highlight시켜줌
+
+    // 남아있는 말들 하이라이트
     if(this->ymodel->getCurrentTeamRemainMalNum()){
         this->teams->setButtonEnable(this->ymodel->getCurrentTeamNum(),
                                      this->ymodel->getCurrentTeamRemainMalNum());
         this->teams->setButtonStyle(this->ButtonBorderHighlight, this->ymodel->getCurrentTeamNum(),
                                     this->ymodel->getCurrentTeamRemainMalNum());
     }
+
+    // 현재 메인 보드에 올라가있는 말 하이라이트
     QVector<QPair<int, int>> tmp = this->ymodel->getCurrentMalLocation();
     if(tmp.size() > 0){
         for(int i=0; i<tmp.size(); i++){
             //this->board->buttonList[tmp[i]]->setDisabled(false);
             this->ymodel->setMainBoardButtonEnable(tmp[i].first, true); // 클릭 가능하게
             // 하이라이트 코드 추가
-//            this->board->setButtonStyleSheet(tmp[i], this->ymodel->getCurrentTeamNum(),
-//                                             this->ymodel->getCurrentButtonMalNum(), this->ButtonBorderHighlight);
+            this->board->setButtonStyleSheet(tmp[i].first, this->ymodel->getCurrentTeamNum(),
+                                             tmp[i].second, this->ButtonBorderHighlight);
         }
     }
 }
@@ -169,8 +173,11 @@ void MainWindow::setButtonEnable(int index){
 }
 
 void MainWindow::setMainBoardUpdate(){
+    // 모든 사용자가 말 한개를 특정 위치에 놔두고 난 뒤
+    // 1. 보드에 존재한 말을 선택했을 경우
+    // 하이라이트를 해줄 필요가 없음!
     //this->board->setButtonStyleSheet(clickedBtnNum, teamNum, malNum, this->ButtonStyle);
-    board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), true);
+    board->boardUiUpdate(this->ymodel->getAllMalLocation(), this->ymodel->getCurrentTeamNum(), false);
 }
 
 /**

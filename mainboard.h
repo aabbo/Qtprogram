@@ -17,10 +17,12 @@ public:
     //MainBoard(vector<BoardButton*> btnList,QWidget* parent = nullptr);
     MainBoard( QWidget* parent = nullptr);
     void setBoard();
+    // 모든 위치를 일괄 업데이트
     void boardUiUpdate(QMap<int, QVector<QPair<int, int>>> malLocation, int currentTeam, bool highlight);
-private:
     void setButtonStyleSheet(int num, QString style);
     void setButtonStyleSheet(int num, int teamNum, int malNum, QString style);
+
+    // initialize
     void setButtonStyleSheetAll(QString style);
 
 public:

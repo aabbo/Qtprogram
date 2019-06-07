@@ -23,6 +23,7 @@ void BoardSetThread::run(){
             if(!this->check)
                 break;
         }
+        this->msleep(30);
     }
     qDebug() << "thread end";
     emit threadEnd();

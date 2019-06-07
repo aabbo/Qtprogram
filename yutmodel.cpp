@@ -25,14 +25,14 @@ YutModel::YutModel(int totalTeamNum, int totalMalNum) : numOfMal(totalMalNum), n
  * @brief YutModel::setQQueueTeams
  * @param teams
  */
-void YutModel::setQQueueTeams(int teams){
-    if(this->teamYutInfo.size()!=teams){
-        for(int i=1;i<=teams;i++){ //start idx from "1"
-            QQueue<int> tmpQueue;
-            this->teamYutInfo.insert(i, tmpQueue);
-        }
-    }
-}
+//void YutModel::setQQueueTeams(int teams){
+//    if(this->teamYutInfo.size()!=teams){
+//        for(int i=1;i<=teams;i++){ //start idx from "1"
+//            QQueue<int> tmpQueue;
+//            this->teamYutInfo.insert(i, tmpQueue);
+//        }
+//    }
+//}
 
 /**
  * @brief YutModel::setButtonList
@@ -136,12 +136,12 @@ bool YutModel::set_clickedYut(int yut){
     //show yut result list
 
     if(mYut==0 || mYut==1 || mYut==2 ||mYut==3){
-        this->teamYutInfo[this->currentTeamNum].enqueue(mYut);
+        this->teamYutInfo.enqueue(mYut);
         //yut button setdisable
         //move mal -> update mal which can moved
         return true;
     }else if(mYut==4 || mYut==5){
-        this->teamYutInfo[this->currentTeamNum].enqueue(mYut);
+        this->teamYutInfo.enqueue(mYut);
         //one more time
         return false;
     }
@@ -149,7 +149,7 @@ bool YutModel::set_clickedYut(int yut){
 }
 
 bool YutModel::isQueueEmpty(){
-    return this->teamYutInfo[this->currentTeamNum].isEmpty();
+    return this->teamYutInfo.isEmpty();
 }
 
 bool YutModel::getMainBoardButtonEnable(int index){
@@ -157,7 +157,7 @@ bool YutModel::getMainBoardButtonEnable(int index){
 }
 
 QQueue<int> YutModel::getCurrentQueue(){
-    return this->teamYutInfo[this->currentTeamNum];
+    return this->teamYutInfo;
 }
 
 QVector<int> YutModel::getCurrentClickableLocation(){
@@ -194,7 +194,7 @@ int YutModel::getCurrentTeamNum(){
 
 bool YutModel::calcFromStartButton(){
     // 새로운 말을 선택했을 경우
-    int yutNum = this->teamYutInfo[this->currentTeamNum].dequeue();
+    int yutNum = this->teamYutInfo.dequeue();
     BoardButton* btn = this->buttonList[1];
     if(yutNum == 0){
         return false;
@@ -215,7 +215,7 @@ bool YutModel::calcFromStartButton(){
 
 void YutModel::calcFromBoardButton(){
     // 보드 위에 올라와있는 말을 선택했을 경우
-    int yutNum = this->teamYutInfo[this->currentTeamNum].dequeue();
+    int yutNum = this->teamYutInfo.dequeue();
     BoardButton* btn = this->buttonList[this->clickedButtonNum];
     switch(this->clickedButtonNum){
     case 5:
