@@ -25,8 +25,10 @@ git clone https://github.com/aabbo/Qtprogram.git
 - 아래 그림과 같이 **Configure**를 해주고 프로그램을 **Run**하면 실행된다.  
 ![configure](./README/configure.png)  
 
-### 이후에 빌드 없이 실행하고자 하는 경우
-- 이 경우 Qt에서 Release모드로 빌드 후 생성된 exe파일을 다른 한 폴더 생성 후 해당 폴더에 업로드한다. 이후 본 프로젝트의 깃 레포지토리의 executableFile 폴더 전부를 복사한 후 exe파일이 있는 폴더에 붙여넣기한다. 이후 해당 폴더 내에서 exe파일을 실행시키면 반복된 빌드 없이 실행할 수 있다.
+### 빌드 없이 실행하고자 하는 경우
+- 이미 빌드된 결과물을 활용하는 방법이다.
+github repository내에 ExecutableFile 폴더에 최근 버그가 수정된 실행 가능한 파일이 존재한다. 
+해당 폴더를 전부 받아서 별다른 수정을 거치지 않고, 폴더 내의 SWE.exe파일을 실행시키면 프로그램 실행이 가능하다. 또한 다음번 릴리즈 빌드 때 빌드 결과물 중 exe파일을 ExecutableFile 폴더 내부로 복사하면 최신 버전을 추가로 빌드 없이 사용할 수 있다.
 
 
 ## 사용 방법 (Usage)  
