@@ -15,16 +15,25 @@ void BoardSetThread::run(){
         this->isBoardButtonClicked = false;
         while(!this->isMalClicked){
             // 사용자가 말을 선택할때까지 대기
-            if(!this->check)
+            if(!this->check){
                 break;
+            }
+            this->msleep(15);
         }
+        //qDebug() << "called1";
+        this->msleep(15);
         while(!this->isBoardButtonClicked){
             // 사용자가 특정 위치를 선택할때까지 대기
-            if(!this->check)
+            if(!this->check){
+
                 break;
+            }
+            this->msleep(15);
+            //qDebug() << "called3";
         }
-        this->msleep(30);
+        this->msleep(100);
     }
+    qDebug() << "isCalled?";
     emit threadEnd();
 }
 
@@ -38,6 +47,9 @@ void BoardSetThread::boardButtonClicked(){
 
 void BoardSetThread::updateQueue(bool isEmpty){
     this->check = !isEmpty;
+    qDebug() << this->check;
+    qDebug() << isBoardButtonClicked;
+    qDebug() << isMalClicked;
 }
 
 void BoardSetThread::init(){

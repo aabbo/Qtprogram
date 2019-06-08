@@ -151,6 +151,7 @@ void MainWindow::setEnableMalButton(){
 void MainWindow::endTurn(bool status){
     this->malHighlightCanclation();
     this->setButtonEnable(ui->SelectButtonStack->currentIndex());
+
     if(status == false){
         this->clearYutFrame();
         this->teams->setLabelStyleSheet(this->ymodel->getCurrentTeamNum(), this->HighlightStyle);
@@ -162,6 +163,7 @@ void MainWindow::endTurn(bool status){
         }
         this->setButtonEnable(ui->SelectButtonStack->currentIndex());
     }
+    this->repaint();
 }
 
 void MainWindow::clearYutFrame(){
@@ -182,12 +184,20 @@ void MainWindow::setButtonDisable(int index){
 
 void MainWindow::setButtonEnable(int index){
     if(index == 0){
+        qDebug()<< "enble0";
         ui->RandomButton->setDisabled(false);
+        ui->RandomButton->setEnabled(true);
         ui->SelectButton->setDisabled(false);
+        ui->SelectButton->setEnabled(true);
     }
     else if(index == 1){
+        qDebug()<< "enble1";
         ui->SelectThrow->setDisabled(false);
+        ui->SelectThrow->setEnabled(true);
         ui->BackPage->setDisabled(false);
+        ui->BackPage->setEnabled(true);
+    }else{
+
     }
 }
 

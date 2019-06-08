@@ -128,6 +128,7 @@ void YutController::setStart(){
         this->ymodel->getAllOuttedMalNum().at(this->ymodel->getCurrentTeamNum()-1)) == this->ymodel->numOfMal
             && this->ymodel->getCurrentQueue().at(0) == 0){
         Sleep(500);
+        qDebug() << "thread end";
         this->malSetEnd();
         return;
     }else {
@@ -145,7 +146,7 @@ void YutController::malSetEnd(){
     // mainWindow 화면 update
     this->isThreadExist = false;
     this->ymodel->endTurn();
-    mw->endTurn();
+    mw->endTurn(false);
 }
 
 void YutController::updateEnableMal(){
