@@ -15,9 +15,9 @@
 
 - QT를 다운받은 후, Repository를 clone한다.   
 
-'''
+```
 git clone https://github.com/aabbo/Qtprogram.git  
-''' 
+``` 
 
 
 - clone한 폴더에 들어가서 **SWE**라는 이름의 QT Project file을 클릭한다.
@@ -30,7 +30,7 @@ git clone https://github.com/aabbo/Qtprogram.git
 ## 사용 방법 (Usage)  
 
 
-1. 플레이어는 참여자의 **인원수**(2~4)와 **게임 말 개수**(2~5)를 슬라이드바를 이용해 조절하여 선택할 수 있다.
+1. 플레이어는 참여자의 **인원수**(2\~4)와 **게임 말 개수**(2\~5)를 슬라이드바를 이용해 조절하여 선택할 수 있다.
   
 2. 게임 시작을 원한다면 **시작**버튼을 클릭한다.
   
