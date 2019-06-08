@@ -87,7 +87,7 @@ text-align:right;
         <item>
          <widget class="QLabel" name="winner_label">
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
          </widget>
         </item>
