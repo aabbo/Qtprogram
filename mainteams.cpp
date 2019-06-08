@@ -13,12 +13,12 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
 
     QLabel* label0=new QLabel();
     label0->setText("나간 말");
-    label0->setMaximumSize(50,50);
+    label0->setMaximumHeight(50);
     label0->setMinimumSize(50,50);
     result->addWidget(label0,0,0);
 
     QLabel* tmpLabel = new QLabel();
-    //tmpLabel->setMaximumSize(50,50);
+    tmpLabel->setMaximumSize(50,50);
     tmpLabel->setMinimumSize(50,50);
     mal->addWidget(tmpLabel,0,0);
 
