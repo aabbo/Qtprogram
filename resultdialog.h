@@ -22,10 +22,13 @@ private slots:
 
     void on_restart_button_clicked();
 
+    void on_ResultDialog_rejected();
+
 private:
     Ui::ResultDialog *ui;
     int winningTeam;
     YutController* yctrl;
+    bool restartBtnClicked;
 };
 
 #endif // RESULTDIALOG_H

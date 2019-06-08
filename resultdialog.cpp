@@ -21,13 +21,23 @@ ResultDialog::~ResultDialog()
 void ResultDialog::on_end_button_clicked()
 {
     this->yctrl->mw->close();
+    this->restartBtnClicked = false;
     //delete this->yctrl->mw;
     this->close();
 }
 
 void ResultDialog::on_restart_button_clicked()
 {
+    this->restartBtnClicked = true;
     this->yctrl->isRestart = true;
+    this->yctrl->mw->close();
+    this->close();
+}
+
+void ResultDialog::on_ResultDialog_rejected(){
+    this->yctrl->isRestart = false;
+    if(this->restartBtnClicked)
+        this->yctrl->isRestart = true;
     this->yctrl->mw->close();
     this->close();
 }

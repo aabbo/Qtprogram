@@ -2,6 +2,7 @@
 #include "yutcontroller.h"
 #include <QDebug>
 
+
 SetupDialog::SetupDialog(QWidget *parent,YutController* ctrl) :
     QDialog(parent),
     ui(new Ui::SetupDialog)
@@ -49,11 +50,23 @@ void SetupDialog::on_mal_slider_valueChanged(int value)
 
 void SetupDialog::on_start_button_clicked()
 {
+    this->startBtnClicked = true;
     this->close();
 }
 
 void SetupDialog::on_cancel_button_clicked()
 {
+    this->startBtnClicked = false;
     startbool = false;
     this->close();
+}
+
+void SetupDialog::on_SetupDialog_rejected()
+{
+    this->startbool = false;
+    if(startBtnClicked)
+        this->startbool = true;
+    this->close();
+
+
 }

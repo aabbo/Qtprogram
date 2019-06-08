@@ -28,6 +28,8 @@ private slots:
 
     void on_cancel_button_clicked();
 
+    void on_SetupDialog_rejected();
+
 signals:
     void setValueOfTeams(int value);
     void setValueOfMals(int value);
@@ -38,6 +40,7 @@ private:
     YutController* yctrl;
     Ui::SetupDialog *ui;
     bool startbool;
+    bool startBtnClicked;
 
 };
 
