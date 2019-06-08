@@ -130,8 +130,20 @@ bool YutModel::set_clickedYut(int yut){
     qsrand(QTime::currentTime().msecsSinceStartOfDay());
     int mYut=yut;
     if(yut==-1){
-        mYut=qrand()%6;
-    }
+            yut = qrand()%16;
+            if(yut==0)  //빽도 (1)
+                mYut = 0;
+            else if(yut>0&&yut<4)    //도 (1)
+                mYut = 1;
+            else if(yut>3&&yut<10) //개(6)
+                mYut = 2;
+            else if(yut>9&&yut<14)  //걸(4)
+                mYut = 3;
+            else if(yut==14)    //윷(1)
+                mYut = 4;
+            else if(yut==15)    //모(1)
+                mYut = 5;
+        }
     //show yut img
     //show yut result list
 
@@ -203,12 +215,15 @@ bool YutModel::calcFromStartButton(){
         btn = btn->nextStep[0];
     }
     this->clickableLocation.push_back(btn->num);
+
+
     if(btn->mals){
         this->isMalExist.push_back(true);
     }
     else {
         this->isMalExist.push_back(false);
     }
+
     this->remainMalNum[this->currentTeamNum-1] -= 1;
     return true;
 }
@@ -226,12 +241,16 @@ void YutModel::calcFromBoardButton(){
         if(yutNum  == 0){
             //빽도
             btn = btn->prevStep[this->prevClickedLoc[this->currentTeamNum-1]];
+
             if(btn->mals){
                 this->isMalExist.push_back(true);
             }else{
                 this->isMalExist.push_back(false);
             }
+
             this->clickableLocation.push_back(btn->num);
+
+
         }
         else{
             if(this->onBoard){
@@ -244,12 +263,13 @@ void YutModel::calcFromBoardButton(){
                 }
                 if(this->isOutted)
                     break;
+
                 if(btn->mals){
                     this->isMalExist.push_back(true);
-                }
-                else{
+                }else{
                     this->isMalExist.push_back(false);
                 }
+
                 this->clickableLocation.push_back(btn->num);
 
 
@@ -271,23 +291,24 @@ void YutModel::calcFromBoardButton(){
                     }
                  }
                  this->clickableLocation.push_back(btn->num);
-                 if(btn->mals){
+
+                if(btn->mals){
                     this->isMalExist.push_back(true);
-                 }
-                 else{
+                }else{
                     this->isMalExist.push_back(false);
-                 }
+                }
             }
             else{
                 for(int i=1; i<yutNum; i++){
                     btn = btn->nextStep[0];
                 }
+
                 if(btn->mals){
                     this->isMalExist.push_back(true);
-                }
-                else{
+                }else{
                     this->isMalExist.push_back(false);
                 }
+
                 this->clickableLocation.push_back(btn->num);
 
 
@@ -303,18 +324,19 @@ void YutModel::calcFromBoardButton(){
                         btn = btn->nextStep[0];
                  }
                  this->clickableLocation.push_back(btn->num);
-                 if(btn->mals){
+
+                if(btn->mals){
                     this->isMalExist.push_back(true);
-                 }
-                 else{
+                }else{
                     this->isMalExist.push_back(false);
-                 }
+                }
             }
         }
         break;
     default:
         if(yutNum == 0){
             btn = btn->prevStep[0];
+
             if(btn->mals){
                 this->isMalExist.push_back(true);
             }else{
@@ -329,18 +351,24 @@ void YutModel::calcFromBoardButton(){
                         this->isOutted = true;
                         break;
                     }
-                    btn = btn->nextStep[0];
+                    if(((this->clickedButtonNum == 22) || (this->clickedButtonNum == 26)) && btn->num == 28){
+                        btn = btn->nextStep[1];
+                    }
+                    else
+                        btn = btn->nextStep[0];
                 }
                 if(this->isOutted)
                     break;
 
                 this->clickableLocation.push_back(btn->num);
+
                 if(btn->mals){
                     this->isMalExist.push_back(true);
-                }
-                else{
+                }else{
                     this->isMalExist.push_back(false);
                 }
+
+
                 break;
             }
             else{
@@ -348,12 +376,14 @@ void YutModel::calcFromBoardButton(){
                     btn = btn->nextStep[0];
                 }
                 this->clickableLocation.push_back(btn->num);
+
+
                 if(btn->mals){
                     this->isMalExist.push_back(true);
-                }
-                else{
+                }else{
                     this->isMalExist.push_back(false);
                 }
+
                 break;
             }
 
@@ -371,6 +401,7 @@ bool YutModel::updateBoardButton(){
             if(this->malLocation[this->currentTeamNum][i].first == this->clickedButtonNum){
                 removeIndex = i;
                 this->outtedMalNum[this->currentTeamNum-1] += this->malLocation[this->currentTeamNum][i].second;
+                break;
             }
         }
         if(this->outtedMalNum.contains(this->numOfMal)){
@@ -381,7 +412,7 @@ bool YutModel::updateBoardButton(){
         this->malLocation[this->currentTeamNum].remove(removeIndex);
         btn = this->buttonList[this->clickedButtonNum];
         btn->mals = 0;
-
+        btn->team = 0;
         this->setButtonDisableAll();
         this->clickableLocation.clear();
         this->isMalExist.clear();
@@ -407,10 +438,11 @@ bool YutModel::updateBoardButton(){
     if(!btn->mals){
         // 빈칸
         btn->team = this->currentTeamNum;
-        if(this->onBoard){
+        if(this->onBoard  && this->firstClickedButtonNum != -1){
             for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
                 if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
                     btn->mals = this->malLocation[this->currentTeamNum][i].second;
+                    break;
                 }
             }
         }
@@ -420,17 +452,20 @@ bool YutModel::updateBoardButton(){
         QPair<int, int> tmpPair(btn->num, btn->mals);
         this->malLocation[this->currentTeamNum].push_back(tmpPair);
 
-        if(this->onBoard){
+        if(this->onBoard  && this->firstClickedButtonNum != -1){
             int removeNum = -1;
             for(int i =0; i<this->malLocation[this->currentTeamNum].size(); i++){
                 if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
                     removeNum = i;
+                    break;
                 }
             }
             this->malLocation[this->currentTeamNum].remove(removeNum);
             btn = this->buttonList[this->firstClickedButtonNum];
             btn->mals = 0;
+            btn->team = 0;
         }
+        this->firstClickedButtonNum = -1;
         this->setButtonDisableAll();
         this->clickableLocation.clear();
         this->isMalExist.clear();
@@ -439,22 +474,39 @@ bool YutModel::updateBoardButton(){
     else {
         if(btn->team == this->currentTeamNum){
             //업기
-            btn->mals++;
-            for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
-                if(this->malLocation[this->currentTeamNum][i].first == btn->num)
-                    this->malLocation[this->currentTeamNum][i].second = btn->mals;
+            int firstClickedMalNum = 0;
+            if(!this->onBoard)
+                firstClickedMalNum = 1;
+            else if(this->firstClickedButtonNum != -1){
+                for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                    if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
+                        firstClickedMalNum = this->malLocation[this->currentTeamNum][i].second;
+                        break;
+                   }
+                }
             }
-            if(this->onBoard){
+
+            for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
+                if(this->malLocation[this->currentTeamNum][i].first == this->clickedButtonNum){
+                    this->malLocation[this->currentTeamNum][i].second += firstClickedMalNum;
+                    break;
+                }
+            }
+
+            if(this->onBoard  && this->firstClickedButtonNum != -1){
                 int removeNum = -1;
                 for(int i =0; i<this->malLocation[this->currentTeamNum].size(); i++){
                     if(this->malLocation[this->currentTeamNum][i].first == this->firstClickedButtonNum){
                         removeNum = i;
+                        break;
                     }
                 }
                 this->malLocation[this->currentTeamNum].remove(removeNum);
                 btn = this->buttonList[this->firstClickedButtonNum];
                 btn->mals = 0;
+                btn->team = 0;
             }
+            this->firstClickedButtonNum = -1;
             this->setButtonDisableAll();
             this->clickableLocation.clear();
             this->isMalExist.clear();
@@ -468,20 +520,27 @@ bool YutModel::updateBoardButton(){
             for(int i=0; i<this->malLocation[btn->team].size(); i++){
                 if(this->malLocation[btn->team][i].first == btn->num){
                     removeIndex = i;
+                    break;
                 }
             }
             this->malLocation[btn->team].remove(removeIndex);
 
             // 잡은 팀 말 배치
-            if(this->onBoard){
+            if(this->onBoard  && this->firstClickedButtonNum != -1){
                 int malNum = 0;
                 for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
                     if(this->malLocation[this->currentTeamNum][i].first == firstClickedButtonNum){
                         malNum = this->malLocation[this->currentTeamNum][i].second;
                         removeIndex = i;
+                        break;
                     }
                 }
+                btn = this->buttonList[this->firstClickedButtonNum];
+                btn->mals = 0;
+                btn->team = 0;
                 this->malLocation[this->currentTeamNum].remove(removeIndex);
+
+                btn = this->buttonList[this->clickedButtonNum];
                 btn->team = this->currentTeamNum;
                 btn->mals = malNum;
             }
@@ -492,6 +551,7 @@ bool YutModel::updateBoardButton(){
             QPair<int, int> tmpPair(this->clickedButtonNum, btn->mals);
             this->malLocation[this->currentTeamNum].push_back(tmpPair);
 
+            this->firstClickedButtonNum = -1;
             this->setButtonDisableAll();
             this->clickableLocation.clear();
             this->isMalExist.clear();
@@ -539,10 +599,27 @@ QPair<int, int> YutModel::getSpecificLocationInfo(int location){
     }
     return QPair<int, int>();
 }
-void YutModel::showAllLocation(){
-    for(int i=0; i<this->malLocation.size(); i++){
-        for(int j=0; j<this->malLocation[i].size(); j++){
 
+void YutModel::showAllLocation(){
+    qDebug() << " ";
+    for(int i=0; i<this->buttonList.size(); i++){
+        qDebug() << "button :" << i << ", teamNum : " << this->buttonList[i]->team << " malNum : " << this->buttonList[i]->mals;
+    }
+    for(int i=0; i<this->malLocation.size(); i++){
+        qDebug() << "team: " << i;
+        for(int j=0; j<this->malLocation[i].size(); j++){
+            qDebug() << "btnNum " << this->malLocation[i][j].first << ", malNum" << this->malLocation[i][j].second;
         }
     }
+    qDebug() << "trun end";
+    qDebug() << " ";
 }
+
+void YutModel::showAllClickableButton(){
+    for(int i=0; i<this->buttonEnable.size(); i++){
+        if(this->buttonEnable[i])
+            qDebug() << "clickable button num index : " << i;
+    }
+}
+
+

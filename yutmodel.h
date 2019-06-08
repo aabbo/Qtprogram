@@ -70,6 +70,7 @@ public :
     void clearClickableLoc();
 
     void showAllLocation();
+    void showAllClickableButton();
 
 private:
     void setQQueueTeams(int teams);

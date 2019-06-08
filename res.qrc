@@ -31,5 +31,10 @@
         <file>img/team3_0.png</file>
         <file>img/team4_0.png</file>
         <file>img/highlight.png</file>
+        <file>img/boardImg.png</file>
+        <file>img/team1.png</file>
+        <file>img/team2.png</file>
+        <file>img/team3.png</file>
+        <file>img/team4.png</file>
     </qresource>
 </RCC>

@@ -66,7 +66,7 @@ void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<
             else{
                 this->MalButtonList.at(i-1).at(j)->setVisible(true);
             }
-            QString imageUrl = ":/img/team" + QString::number(i)+"_0.png";
+            QString imageUrl = ":/img/team" + QString::number(i)+".png";
             QString styleBtn = "image:url(" + imageUrl + ");" + style;
             this->MalButtonList.at(i-1).at(j)->setStyleSheet(styleBtn);
         }
@@ -79,7 +79,7 @@ void MainTeams::setButtonStyleSheetAll(QString style, int totalTeamNum, QVector<
 }
 
 void MainTeams::setButtonStyle(QString style, int teamNum, int remainedMalNum){
-    QString imageUrl = ":/img/team" + QString::number(teamNum) + "_0.png";
+    QString imageUrl = ":/img/team" + QString::number(teamNum) + ".png";
     QString styleBtn = "image:url(" + imageUrl + ");" + style;
     for(int i=0; i<remainedMalNum; i++)
         this->MalButtonList.at(teamNum-1).at(i)->setStyleSheet(styleBtn);

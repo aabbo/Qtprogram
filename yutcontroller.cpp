@@ -55,11 +55,15 @@ void YutController::clickedBoardBtn(int num){
         }
         this->ymodel->setButtonDisableAll();
         mw->enableCurrentBoardButtonLocation();
+        qDebug() << "select Mal on Board";
+        this->ymodel->showAllClickableButton();
         emit malClicked();
     }
     else{
         bool status = this->ymodel->updateBoardButton();
         this->ymodel->showAllLocation();
+        qDebug() << "show after select";
+        this->ymodel->showAllClickableButton();
         // 말 놓기
         if(status && !this->ymodel->isWrongClicked){
             // 말 잡음
@@ -99,7 +103,9 @@ void YutController::clickedRemainedMal(){
         // 이동 가능
         // 이동 가능한 위치 하이라이팅
         this->ymodel->setButtonDisableAll();
+        qDebug() << "select mal on teamInfo";
         mw->enableCurrentBoardButtonLocation();
+        this->ymodel->showAllClickableButton();
         emit malClicked();
     }
     else{
@@ -144,8 +150,6 @@ void YutController::malSetEnd(){
 
 void YutController::updateEnableMal(){
     mw->setEnableMalButton();
-}
-
-void YutController::resetGame(){
-    YutController* tmp = this;
+    qDebug() << "show before click";
+    this->ymodel->showAllClickableButton();
 }

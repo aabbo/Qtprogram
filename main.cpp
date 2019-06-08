@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         int tmp = a.exec();
         if(tmp == 0){
             if(yctrl->isRestart){
-                delete yctrl;
+                //delete yctrl;
                 yctrl = new YutController();
                 if(yctrl->gamestart == false){
                     a.quit();
