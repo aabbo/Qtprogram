@@ -49,7 +49,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event){
 
 void MainWindow::on_RandomButton_clicked()
 {
-    qDebug()<<"test==random btn clicked";
     this->yctrl->clickedYut(-1);
 }
 

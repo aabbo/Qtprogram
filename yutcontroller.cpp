@@ -59,7 +59,7 @@ void YutController::clickedBoardBtn(int num){
     }
     else{
         bool status = this->ymodel->updateBoardButton();
-
+        this->ymodel->showAllLocation();
         // 말 놓기
         if(status && !this->ymodel->isWrongClicked){
             // 말 잡음

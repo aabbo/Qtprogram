@@ -368,7 +368,7 @@ bool YutModel::updateBoardButton(){
     if(this->isOutted){
         int removeIndex = 0;
         for(int i=0; i<this->malLocation[this->currentTeamNum].size(); i++){
-            if(this->malLocation[this->currentTeamNum][i].first == 0){
+            if(this->malLocation[this->currentTeamNum][i].first == this->clickedButtonNum){
                 removeIndex = i;
                 this->outtedMalNum[this->currentTeamNum-1] += this->malLocation[this->currentTeamNum][i].second;
             }
@@ -379,7 +379,7 @@ bool YutModel::updateBoardButton(){
             this->winningTeamNum = this->currentTeamNum;
         }
         this->malLocation[this->currentTeamNum].remove(removeIndex);
-        btn = this->buttonList[0];
+        btn = this->buttonList[this->clickedButtonNum];
         btn->mals = 0;
 
         this->setButtonDisableAll();
@@ -532,10 +532,17 @@ void YutModel::clearClickableLoc(){
 
 QPair<int, int> YutModel::getSpecificLocationInfo(int location){
     for(int i=0; i<this->malLocation.size(); i++){
-        for(int j =0; j<this->malLocation[i].size(); i++){
+        for(int j =0; j<this->malLocation[i].size(); j++){
             if(this->malLocation[i][j].first == location)
                 return QPair<int, int>(i,this->malLocation[i][j].second);
         }
     }
     return QPair<int, int>();
+}
+void YutModel::showAllLocation(){
+    for(int i=0; i<this->malLocation.size(); i++){
+        for(int j=0; j<this->malLocation[i].size(); j++){
+
+        }
+    }
 }
