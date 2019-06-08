@@ -18,7 +18,7 @@ void MainTeams::setTeams(int totalTeamNum, int totalMalNum){
     result->addWidget(label0,0,0);
 
     QLabel* tmpLabel = new QLabel();
-    tmpLabel->setMaximumSize(50,50);
+    //tmpLabel->setMaximumSize(50,50);
     tmpLabel->setMinimumSize(50,50);
     mal->addWidget(tmpLabel,0,0);
 

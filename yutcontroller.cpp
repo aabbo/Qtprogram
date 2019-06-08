@@ -28,6 +28,7 @@ YutController::YutController(QObject *parent) : QObject(parent)
     connect(this, SIGNAL(threadRestart()), thread, SLOT(restart()));
     this->isThreadExist = false;
 }
+
 void YutController::clickedBoardBtn(int num){
     // board button을 클릭하는 경우는 2가지
     // 1. 출발할 말 선택
@@ -46,7 +47,7 @@ void YutController::clickedBoardBtn(int num){
                 rd = new ResultDialog(this->ymodel->winningTeamNum, this, nullptr);
                 rd->exec();
             }
-            mw->setMainBoardUpdate();
+            mw->setMainBoardUpdate();            
             this->ymodel->isOutted = false;
             emit malClicked();
             emit boardButtonClicked();
@@ -55,6 +56,7 @@ void YutController::clickedBoardBtn(int num){
         }
         this->ymodel->setButtonDisableAll();
         mw->enableCurrentBoardButtonLocation();
+        mw->malHighlightCanclation();
         qDebug() << "select Mal on Board";
         this->ymodel->showAllClickableButton();
         emit malClicked();
